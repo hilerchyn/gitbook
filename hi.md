@@ -1,4 +1,4 @@
-# Hi
+# 嘿 Hi
 
 ```go
 package main
@@ -15,6 +15,8 @@ func main() {
 ```
 
 The same
+
+同样可写成
 
 ```go
 package main
@@ -34,6 +36,8 @@ func hi(ctx *iris.Context){
 ```
 
 Rich Hi with **html\/template**
+
+使用 **html\/template** 丰富 Hi 示例
 
 ```html
 <!-- ./templates/hi.html -->
@@ -62,6 +66,8 @@ func hi(ctx *iris.Context){
 ```
 
 Rich Hi with **Django-syntax**
+
+使用 **Django-syntax** 丰富 Hi 示例
 
 ```html
 <!-- ./mytemplates/hi.html -->
@@ -94,4 +100,6 @@ func hi(ctx *iris.Context){
 ```
 
 * More about render and template engines [here](render.md)
+
+* 关于渲染和模版引擎的更多内容在 [这里](render.md)
 
