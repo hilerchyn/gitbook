@@ -1,4 +1,4 @@
-# Using native http.Handler via iris.ToHandlerFunc()
+# 通过 iris.ToHandlerFunc 使用原生 http.Handler / Using native http.Handler via iris.ToHandlerFunc()
 
 ```go
 iris.Get("/letsget", iris.ToHandlerFunc(nativehandler{}))
