@@ -1,6 +1,8 @@
-# Party
+# 派别 / Party
 
 Let's party with Iris web framework!
+
+让我们用Iris网站框架开个派对！
 
 ```go
 package main
@@ -8,11 +10,14 @@ package main
 import "github.com/kataras/iris"
 
 func main() {
+    // 需要在中间件中添加 ctx.Next() 才能继续后续的逻辑
     admin := iris.Party("/admin", func(ctx *iris.Context){ ctx.Write("Middleware for all party's routes!") })
     {
         // add a silly middleware
+        // 加个笨点儿的中间件
         admin.UseFunc(func(c *iris.Context) {
             //your authentication logic here...
+            //这儿是你的验证逻辑
             println("from ", c.PathString())
             authorized := true
             if authorized {
