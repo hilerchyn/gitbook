@@ -2,6 +2,8 @@
 
 **Use of GET,  POST,  PUT,  DELETE, HEAD, PATCH & OPTIONS**
 
+**使用 GET,  POST,  PUT,  DELETE, HEAD, PATCH & OPTIONS**
+
 ```go
 package main
 

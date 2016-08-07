@@ -1,29 +1,38 @@
-# Middleware
+# 中间件 / Middleware
 
 **Quick view**
 
+**快速浏览**
+
 ```go
 // First point to the static files
+// 首先是静态文件
 iris.Static("/assets", "./public/assets", 1)
 
 // Then declare which middleware to use (custom or not)
+// 然后使用声明的中间件（自定义的或不是自定义的）
 iris.Use(myMiddleware{})
 iris.UseFunc(func(ctx *iris.Context){})
 
 // Now declare routes
+// 现在声明路由
 iris.Get("/myroute", func(c *iris.Context) {
     // do stuff
+    // 处理点东西
 })
 iris.Get("/secondroute", myMiddlewareFunc, myRouteHandlerfunc)
 
 // Now run our server
+// 现在运行我们的服务器
 iris.Listen(":8080")
 
 
 // myMiddleware will be like that
+// myMiddleware 看起来像这样
 
 type myMiddleware struct {
   // your 'stateless' fields here
+  // 这儿是你的 'stateless' 字段
 }
 
 func (m *myMiddleware) Serve(ctx *iris.Context){
@@ -35,6 +44,9 @@ func (m *myMiddleware) Serve(ctx *iris.Context){
 Middleware in Iris is not complicated, they are similar to simple Handlers.
 They implement the Handler interface as well:
 
+Iris 中的中间件并不复杂，与简单的 Handlers 相似。它们也实现了 Handler 接口:
+
+
 ```go
 type Handler interface {
     Serve(*Context)
@@ -43,6 +55,8 @@ type Middleware []Handler
 ```
 
 Handler middleware example:
+
+Handler 中间件示例:
 
 ```go
 
@@ -70,6 +84,8 @@ iris.Listen(":8080")
 
 HandlerFunc middleware example:
 
+HandlerFunc 中间件示例:
+
 ```go
 
 func myMiddleware(c *iris.Context){
@@ -81,6 +97,8 @@ iris.UseFunc(myMiddleware)
 ```
 
 HandlerFunc middleware for a specific route:
+
+指定路由的 HandlerFunc 中间件:
 
 ```go
 
@@ -102,8 +120,12 @@ iris.Listen(":8080")
 ```
 
 > Note that middleware must come before route declaration.
+> 
+> 注意中间件必须在路由声明之前
 
 Make use of the [middleware](https://github.com/iris-contrib/middleware), view practical [examples here](https://github.com/iris-contrib/examples)
+
+利用 [中间件](https://github.com/iris-contrib/middleware), 在这里查看实际 [示例](https://github.com/iris-contrib/examples)
 
 ```go
 package main
@@ -161,6 +183,7 @@ func main() {
 	iris.Get("/", secondMiddleware, func(ctx *iris.Context) {
 		ctx.Write("Hello from / \n")
 		ctx.Next() // .Next because we 're using the third middleware after that, and lastAlwaysMiddleware also
+		// 因为在这之后要使用 thirdMiddleware 和 lastAlwaysMiddleware 所以使用 .Next
 	}, thirdMiddleware)
 	iris.Listen(":8080")
 
@@ -170,6 +193,8 @@ func main() {
 ```
 
 **Done/DoneFunc with Parties**
+
+**Done/DoneFunc 与 派别 一起使用**
 
 ```go
 // Package main same as middleware_2 but with party
@@ -216,3 +241,5 @@ func main() {
 ```
 
 > Done/DoneFuncs are just last-executed handlers, like Use/UseFunc the children party inheritates these 'done/last' handlers also.
+> 
+> Done/DoneFuncs 只是最后执行的处理器，像 Use/UseFunc 子 派别 也继承了 'done/last' 处理器。
