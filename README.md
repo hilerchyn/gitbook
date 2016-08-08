@@ -27,7 +27,7 @@
 * [静态文件](static-files.md)
 * [下载文件](send-files.md)
 * [发送邮件](mail.md)
-* [模版渲染 Render](render.md)
+* [渲染器 Render](render.md)
    * [响应引擎 Response Engines](response-engines.md)
    * [模版引擎 Template Engines](template-engines.md)
 * [Gzip 压缩](gzip.md)
