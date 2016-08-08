@@ -1,42 +1,67 @@
-# Static files
+# 静态文件 / Static files
 
 Serve a static directory
+
+服务于一个静态目录
 
 ```go
 
 // StaticHandler returns a HandlerFunc to serve static system directory
+// StaticHandler 返回一个 HandlerFunc 用来服务于静态系统目录
 // Accepts 5 parameters
+// 接受 5 个参数
 //
 // first is the systemPath (string)
+// 第1个是 systemPath (string)
 // Path to the root directory to serve files from.
+// 服务的文件来自于路径的跟目录。
 //
 // second is the  stripSlashes (int) level
+// 第2个是 stripSlashed (int) 级别
 // * stripSlashes = 0, original path: "/foo/bar", result: "/foo/bar"
+// * stripSlashes = 0, 原始路径: "/foo/bar", 结果: "/foo/bar"
 // * stripSlashes = 1, original path: "/foo/bar", result: "/bar"
+// * stripSlashes = 1, 原始路径: "/foo/bar", 结果: "/bar"
 // * stripSlashes = 2, original path: "/foo/bar", result: ""
+// * stripSlashes = 2, 原始路径: "/foo/bar", 结果: ""
 //
 // third is the compress (bool)
+// 第3个是 compress (bool)
 // Transparently compresses responses if set to true.
+// 如果设置为true的话将透明压缩响应。
 //
 // The server tries minimizing CPU usage by caching compressed files.
+// 服务器通过缓存压缩后的文件来尝试最小化CPU的使用率。
 // It adds FSCompressedFileSuffix suffix to the original file name and
+// 它在原始文件名上添加了 FSCompressedFileSuffix 后缀，
 // tries saving the resulting compressed file under the new file name.
+// 并尝试用新的文件名来保存压缩后的文件结果。
 // So it is advisable to give the server write access to Root
+// 所以建议给服务器开放向Root目录操作的写权限,
 // and to all inner folders in order to minimze CPU usage when serving
 // compressed responses.
+// 包括根目录下的所有文件夹，这样当压缩应答服务时可以最小化 CPU 使用率。
 //
 // fourth is the generateIndexPages (bool)
+// 第4个是 generateIndexPages (bool)
 // Index pages for directories without files matching IndexNames
+// 目录索引页，当目录中没有文件匹配到索引文件名时
 // are automatically generated if set.
+// 如果设置了的话将自动生成。
 //
 // Directory index generation may be quite slow for directories
+// 目录索引生成也许相当慢当目录中
 // with many files (more than 1K), so it is discouraged enabling
+// 有许多文件(多于1K)时，所以不鼓励对这样的目录启用索引页生成。
 // index pages' generation for such directories.
 //
 // fifth is the indexNames ([]string)
+// 第5个是索引名 ([]string)
 // List of index file names to try opening during directory access.
+// 当尝试打开访问目录时的索引文件名列表。
 //
 // For example:
+// 例如：
 //
 //     * index.html
 //     * index.htm
