@@ -3,24 +3,33 @@
 
 Do  progressive rendering via multiple flushes, streaming.
 
+通过多次刷新、流 来逐步呈现。
+
 
 ```go
 // StreamWriter registers the given stream writer for populating
 // response body.
+// StreamWriter 注册给定的流writer来填充响应体
 //
 //
 // This function may be used in the following cases:
+// 这个函数也许会在下面几种情况下被用到：
 //
 //     * if response body is too big (more than 10MB).
+//     * 如果响应体太大 (大于19MB)
 //     * if response body is streamed from slow external sources.
+//     * 如果响应体来自外部缓慢的流
 //     * if response body must be streamed to the client in chunks.
+//     * 如果响应体必须分成小块的发送到客户端
 //     (aka `http server push`).
+//     (亦称作 ｀HTTP 服务器推送｀)
 StreamWriter(cb func(writer *bufio.Writer))
 
 ``` 
 
 
-## Usage example
+## 用例 / Usage example
+
 ```go
 
 package main
@@ -45,6 +54,7 @@ func stream(w *bufio.Writer) {
 			fmt.Fprintf(w, "this is a message number %d", i)
 
 			// Do not forget flushing streamed data to the client.
+			// 不要忘记将流数据刷新到客户端。
 			if err := w.Flush(); err != nil {
 				return
 			}
@@ -55,18 +65,27 @@ func stream(w *bufio.Writer) {
 ```
 
 To achieve the oposite make use of the ` StreamReader` 
+
+`StreamReader` 达到相反的用途
+
+
 ```go
 // StreamReader sets response body stream and, optionally body size.
+// StreamReader 设置响应体流的读取器，还可以设置读取内容的大小。
 //
 // If bodySize is >= 0, then the bodyStream must provide exactly bodySize bytes
 // before returning io.EOF.
+// 如果读区内容尺寸 >= 0, 那么在返回 io.EOF 之前 bodyStream 必须给定确切的 字节 大小
 //
 // If bodySize < 0, then bodyStream is read until io.EOF.
+// 如果读区内容大小 < 0, 那么 bodyStream 会一直读取至 io.EOF 。
 //
 // bodyStream.Close() is called after finishing reading all body data
 // if it implements io.Closer.
+// 如果读取器实现了 io.Closer 那么在读取完所有响应体数据后调用 bodyStream.Close()
 //
 // See also StreamReader.
+// 那么看一下 StreamReader
 StreamReader(bodyStream io.Reader, bodySize int)
 
 ```
