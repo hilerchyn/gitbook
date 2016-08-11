@@ -1,6 +1,8 @@
-# Custom HTTP Errors
+# 自定义HTTP错误 / Custom HTTP Errors
 
 You can define your own handlers when http error occurs.
+
+当发生 HTTP 错误时，你可以定义自己的处理器。
 
 ```go
 package main
@@ -22,6 +24,7 @@ func main() {
 	})
 
 	// emit the errors to test them
+	// 发出错误测试
 	iris.Get("/500", func(ctx *iris.Context) {
 		ctx.EmitError(iris.StatusInternalServerError) // ctx.Panic()
 	})

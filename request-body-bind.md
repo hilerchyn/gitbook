@@ -1,19 +1,26 @@
-# Body binder
+# 请求体绑定器 ／ Body binder
 
 Body binder reads values from the body and set them to a specific object.
 
+请求体绑定器从请求体中读取内容并把相应的值设置到指定的对象。
+
 ```go
 // ReadJSON reads JSON from request's body
+// ReadJSON 从请求体中读取 JSON
 ReadJSON(jsonObject interface{}) error
 
 // ReadXML reads XML from request's body
+// ReadXML 从请求体中读取 XML
 ReadXML(xmlObject interface{}) error
 
 // ReadForm binds the formObject  to the requeste's form data
+// ReadForm 将 formObject 绑定到请求的表单数据上
 ReadForm(formObject interface{}) error
 ```
 
 How to use
+
+如何使用
 
 ### JSON
 
@@ -91,9 +98,11 @@ func main() {
 
 ### Form
 
-#### Types
+#### 类型 / Types
 
 The supported field types in the destination struct are:
+
+目标结构中支持的字段类型有:
 
 * `string`
 * `bool`
@@ -107,18 +116,18 @@ The supported field types in the destination struct are:
 * `time.Time`
 * `url.URL`
 *  slices []string
-* `custom types` to one of the above types
-* a `pointer` to one of the above types
+* `custom types` to one of the above types / 上面的任一类型
+* a `pointer` to one of the above types / 上面任一类型的指针
 
 
-#### Custom Marshaling
+#### 自定义序列化 ／ Custom Marshaling
 
 
 Is possible unmarshaling data and the key of a map by the `encoding.TextUnmarshaler` interface.
 
 ----
 
-#### Example
+#### 示例 / Example
 
 ```go
  //./main.go
@@ -185,14 +194,16 @@ func main() {
 ```
 
 
-#### Example
+#### 示例 / Example
 
 
 
-##### In form html
+##### HTML 表单 / In form html
 
 - Use symbol `.` for access a field/key of a structure or map. (i.e, `struct.key`)
+- 使用 `.` 符号访问结构体或映射的 field/key。 （ 如, `struct.key`)
 - Use `[int_here]` for access to index of a slice/array. (i.e, `struct.array[0]`)
+- 使用 `[整数]` 访问切片或数组索引位置的内容。（如，`struct.array[0]`)
 
 ```html
 <form method="POST">
@@ -215,9 +226,11 @@ func main() {
 </form>
 ```
 
-##### Backend
+##### 后端 / Backend
 
 You can use the tag `form` if the name of a input of form starts lowercase.
+
+如果表单input框的名字的第一个字母是小写，你可以使用 `form` 标签来绑定。
 
 ```go
 package main

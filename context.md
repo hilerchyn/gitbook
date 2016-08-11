@@ -2,9 +2,11 @@
 
 ```go
 	IContext interface {
-               // it contains all fasthttp's RequestCtx's functions
-               *fasthttp.RequestCtx
-               // These are the iris' specific 
+       // it contains all fasthttp's RequestCtx's functions
+       // 它包含了 fasthttp 的 RequestCtx 的所有函数
+       *fasthttp.RequestCtx
+       // These are the iris' specific 
+       // 这些函数是 iris 特定的
 		Param(string) string
 		ParamInt(string) (int, error)
 		ParamInt64(string) (int64, error)
@@ -89,3 +91,5 @@
 
 
 The [examples](https://github.com/iris-contrib/examples) will give you the direction.
+
+这些 [示例](https://github.com/iris-contrib/examples) 会给你一些指导。
