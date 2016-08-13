@@ -24,15 +24,25 @@ How to use
 
 ### JSON
 
+```json
+{"public":true,"website":{"Scheme":"http","Opaque":"Opaque-data","User":{"username":"name","password":"password","passwordSet":true},"Host":"bing.com","Path":"/search"},"foundation":"2006-01-02T15:04:05Z","Name":"Hiler","Location":{"Country":"China","City":"Qingdao"},"Products":[{"Name":"product name 1", "Type":"type 1"},{"Name":"product name 2", "Type":"type2"}],"Founders":["Hiler","Chen"],"Employees":55}
+```
+**注意:JSON中的 Website 即 url.URL 类型字段中的 内嵌 User 字段 为 *url.Userinfo 类型，该字段不能被序列化或反序列化**
+
+
 ```go
 package main
 
-import "github.com/kataras/iris"
+import (
+	"github.com/kataras/iris"
+	"time"
+	"net/url"
+)
 
 type Company struct {
-   Public     bool      `form:"public"`
-   Website    url.URL   `form:"website"`
-   Foundation time.Time `form:"foundation"`
+   Public     bool      `json:"public"`
+   Website    url.URL   `json:"website"`
+   Foundation time.Time `json:"foundation"`
    Name       string
    Location   struct {
      Country  string
@@ -53,13 +63,46 @@ func MyHandler(c *iris.Context) {
 }
   
 func main() {
-  iris.Get("/bind_json", MyHandler)
+  iris.Post("/bind_json", MyHandler)
   iris.Listen(":8080")
 }
 
 ```
 
 ### XML
+
+```xml
+<xml>
+    <Public>true</Public>
+    <Website>
+        <Scheme>Scheme</Scheme>
+	    <Opaque>Opaque</Opaque>
+	    <User></User>
+	    <Host>Host</Host>
+	    <Path>Path</Path>
+	    <RawPath>RawPath</RawPath>
+	    <RawQuery>RawQuery</RawQuery>
+	    <Fragment>Fragment</Fragment>
+    </Website>
+    <Foundation>2006-01-02T15:04:05Z</Foundation>
+    <Name>Name</Name>
+    <Location>
+        <Country>Country</Country>
+        <City>City</City>
+    </Location>
+    <Products>
+        <Name>Name1</Name>
+        <Type>Type1</Type>
+    </Products>
+    <Products>
+        <Name>Name2</Name>
+        <Type>Type2</Type>
+    </Products>
+    <Founders>Founders1</Founders>
+    <Founders>Founders2</Founders>
+    <Employees>66</Employees>
+</xml>
+```
 
 ```go
 package main
@@ -90,7 +133,7 @@ func MyHandler(c *iris.Context) {
 }
   
 func main() {
-  iris.Get("/bind_xml", MyHandler)
+  iris.Post("/bind_xml", MyHandler)
   iris.Listen(":8080")
 }
 
@@ -124,6 +167,8 @@ The supported field types in the destination struct are:
 
 
 Is possible unmarshaling data and the key of a map by the `encoding.TextUnmarshaler` interface.
+
+通过 `encoding.TextUnmarshaler` 接口可以反序列化map的数据和key
 
 ----
 
@@ -206,7 +251,7 @@ func main() {
 - 使用 `[整数]` 访问切片或数组索引位置的内容。（如，`struct.array[0]`)
 
 ```html
-<form method="POST">
+<form action="/bind_form" method="POST">
   <input type="text" name="Name" value="Sony"/>
   <input type="text" name="Location.Country" value="Japan"/>
   <input type="text" name="Location.City" value="Tokyo"/>
@@ -270,7 +315,13 @@ func MyHandler(c *iris.Context) {
 }
   
 func main() {
-  iris.Get("/bind_form", MyHandler)
+
+  iris.Get("/", func(c *iris.Context) {
+    c.Render("form.html", nil)
+  })
+  
+  iris.Post("/bind_form", MyHandler)
+  
   iris.Listen(":8080")
 }
 ```

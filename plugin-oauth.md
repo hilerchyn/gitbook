@@ -3,9 +3,13 @@
 
 This is a [plugin](https://github.com/iris-contrib/plugin/tree/master/oauth).
 
+这是一个 [插件](https://github.com/iris-contrib/plugin/tree/master/oauth)。
+
 This plugin helps you to be able to connect your clients using famous websites login APIs, it is a bridge to the [goth](https://github.com/markbates/goth).
 
-## Supported Providers
+这个插件能够帮助你使用著名网站的登录API连接你的客户，它是连接 [goth](https://github.com/markbates/goth) 的桥梁。
+
+## 支持的网站 / Supported Providers
 
     Amazon
     Bitbucket
@@ -38,37 +42,48 @@ This plugin helps you to be able to connect your clients using famous websites l
     Yammer
 
 
-## How to use - high level
+## 如何使用 - 复杂 / How to use - high level
+
+
+
 ```go
     configs := oauth.Config{
-      Path: "/auth", //defaults to /auth
+      Path: "/auth", //defaults to /auth /默认路径 /auth
 
       GithubKey:    "YOUR_GITHUB_KEY",
       GithubSecret: "YOUR_GITHUB_SECRET",
-      GithubName:   "github", // defaults to github
+      GithubName:   "github", // defaults to github / 默认 github
 
       FacebookKey:    "YOUR_FACEBOOK_KEY",
       FacebookSecret: "YOUR_FACEBOOK_KEY",
-      FacebookName:   "facebook", // defaults to facebook
+      FacebookName:   "facebook", // defaults to facebook / 默认是 facebook
       //and so on... enable as many as you want
+      // 等等... 只要你想要
     }
 
 	// create the plugin with our configs
+	// 使用自己的配置创建插件
 	authentication := oauth.New(configs)
 	// register the plugin to iris
+	// 将插件注册到 iris
 	iris.Plugins.Add(authentication)
 
     // came from yourhost:port/configs.Path/theprovidername
+    // 来自 yourhost:port/configs.Path/theprovidername
     // this is the handler inside yourhost:port/configs.Path/theprovidername/callback
+    // 这是 yourhost:port/configs.Path/theprovidername/callback 内部的处理器
     // you can do redirect to the authenticated url or whatever you want to do
+    // 你可以重定向到身份认证的url 或 任何你想要做的
 	authentication.Success(func(ctx *iris.Context) {
-		user := authentication.User(ctx) // returns the goth.User
+		user := authentication.User(ctx) // returns the goth.User / 返回 goth.User
     })
     authentication.Fail(func(ctx *iris.Context){})
 
 ```
 
 Example:
+
+示例:
 
 ```go
 // main.go
@@ -83,16 +98,17 @@ import (
 )
 
 // register your auth via configs, providers with non-empty values will be registered to goth automatically by Iris
+// 通过 configs 变量 注册你自己的 auth 路径，非空值的供应者将被 Iris 自动注册到 goth
 var configs = oauth.Config{
-	Path: "/auth", //defaults to /oauth
+	Path: "/auth", //defaults to /oauth 默认 /auth
 
 	GithubKey:    "YOUR_GITHUB_KEY",
 	GithubSecret: "YOUR_GITHUB_SECRET",
-	GithubName:   "github", // defaults to github
+	GithubName:   "github", // defaults to github / 默认 github
 
 	FacebookKey:    "YOUR_FACEBOOK_KEY",
 	FacebookSecret: "YOUR_FACEBOOK_KEY",
-	FacebookName:   "facebook", // defaults to facebook
+	FacebookName:   "facebook", // defaults to facebook / 默认为 facebook
 }
 
 func init() {
@@ -100,6 +116,7 @@ func init() {
 }
 
 // ProviderIndex ...
+// 供应者索引 ...
 type ProviderIndex struct {
 	Providers    []string
 	ProvidersMap map[string]string
@@ -107,12 +124,14 @@ type ProviderIndex struct {
 
 func main() {
 	// create the plugin with our configs
+	// 使用自己的配置创建插件
 	authentication := oauth.New(configs)
 	// register the plugin to iris
+	// 将插件注册到 iris
 	iris.Plugins.Add(authentication)
 
 	m := make(map[string]string)
-	m[configs.GithubName] = "Github" // same as authentication.Config.GithubName
+	m[configs.GithubName] = "Github" // same as authentication.Config.GithubName 同 authentication.Config.GithubName
 	m[configs.FacebookName] = "Facebook"
 
 	var keys []string
@@ -124,18 +143,24 @@ func main() {
 	providerIndex := &ProviderIndex{Providers: keys, ProvidersMap: m}
 
 	// set a  login success handler( you can use more than one handler)
+	// 设置登录成功处理器 (你可以不只使用一个处理器)
 	// if user succeed to logged in
+	// 如果用户登录成功
 	// client comes here from: localhost:3000/config.RouteName/lowercase_provider_name/callback 's first handler, but the  previous url is the localhost:3000/config.RouteName/lowercase_provider_name
+	// 客户端来自: localhost:3000/config.RouteName/lowercase_provider_name/callback 的第一个处理器，而其先前的 url  是 localhost:3000/config.RouteName/lowercase_provider_name
 	authentication.Success(func(ctx *iris.Context) {
 		// if user couldn't validate then server sends StatusUnauthorized, which you can handle by:  authentication.Fail OR iris.OnError(iris.StatusUnauthorized, func(ctx *iris.Context){})
+		// 如果用户验证没有通过，那么服务器会发送 StatusUnauthorized，你可以通过一下方式来处理：authentication.Fail OR iris.OnError(iris.StatusUnauthorized, func(ctx *iris.Context){})
 		user := authentication.User(ctx)
 
 		// you can get the url by the named-route 'oauth' which you can change by Config's field: RouteName
+		// 你可以通过命名路由 'auth' 取得 url，当然你也改变 Config 的 RouteName 字段来改变它。
 		println("came from " + authentication.URL(strings.ToLower(user.Provider)))
 		ctx.Render("user.html", user)
 	})
 
 	// customize the error page using: authentication.Fail(func(ctx *iris.Context){....})
+	// 自定义错误页面使用: authentication.Fail(func(ctx *iris.Context){....})
 
 	iris.Get("/", func(ctx *iris.Context) {
 		ctx.Render("index.html", providerIndex)
@@ -145,7 +170,9 @@ func main() {
 }
 
 ```
+
 View: 
+
 ```html
 <!-- ./templates/index.html -->
 
@@ -154,6 +181,7 @@ View:
 {{end}}
 
 ```
+
 ```html
 <!-- ./templates/user.html -->
 <p>Name: {{.Name}}</p>
@@ -169,11 +197,16 @@ View:
 
 ```
 
-## How to use - low level
+## 如何使用 - 简单 ／ How to use - low level
 
 Low-level is just the [iris-contrib/gothic](https://github.com/iris-contrib/gothic) which is like the original [goth](https://github.com/markbates/goth) but converted to work with Iris.
 
+简单的方式就是使用 [iris-contrib/gothic](https://github.com/iris-contrib/gothic) 就像原始的 [goth](https://github.com/markbates/goth)，只是转换成与 Iris 一同使用。
+
 Example:
+
+示例:
+
 
 ```go
 package main
@@ -217,13 +250,14 @@ import (
 )
 
 func init() {
-	iris.Config.Sessions.Provider = "memory" // or "redis" and configure the Redis Provider
+	iris.Config.Sessions.Provider = "memory" // or "redis" and configure the Redis Provider / 或者 "redis" 来配置 Redis Provider
 }
 
 func main() {
 	goth.UseProviders(
 		twitter.New(os.Getenv("TWITTER_KEY"), os.Getenv("TWITTER_SECRET"), "http://localhost:3000/auth/twitter/callback"),
 		// If you'd like to use authenticate instead of authorize in Twitter provider, use this instead.
+		// 如果你喜欢使用身份认证替代 Twitter 供应者的授权，可以使用下面代码替代。
 		// twitter.NewAuthenticate(os.Getenv("TWITTER_KEY"), os.Getenv("TWITTER_SECRET"), "http://localhost:3000/auth/twitter/callback"),
 
 		facebook.New(os.Getenv("FACEBOOK_KEY"), os.Getenv("FACEBOOK_SECRET"), "http://localhost:3000/auth/facebook/callback"),
@@ -244,13 +278,16 @@ func main() {
 		onedrive.New(os.Getenv("ONEDRIVE_KEY"), os.Getenv("ONEDRIVE_SECRET"), "http://localhost:3000/auth/onedrive/callback"),
 
 		//Pointed localhost.com to http://localhost:3000/auth/yahoo/callback through proxy as yahoo
+		// 像 yahoo 一样通过代理将 localhost.com 指向 http://localhost:3000/auth/yahoo/callback
 		// does not allow to put custom ports in redirection uri
+		// 不要允许在重定向 uri 中加上自定义端口
 		yahoo.New(os.Getenv("YAHOO_KEY"), os.Getenv("YAHOO_SECRET"), "http://localhost.com"),
 		slack.New(os.Getenv("SLACK_KEY"), os.Getenv("SLACK_SECRET"), "http://localhost:3000/auth/slack/callback"),
 		stripe.New(os.Getenv("STRIPE_KEY"), os.Getenv("STRIPE_SECRET"), "http://localhost:3000/auth/stripe/callback"),
 		wepay.New(os.Getenv("WEPAY_KEY"), os.Getenv("WEPAY_SECRET"), "http://localhost:3000/auth/wepay/callback", "view_user"),
 		//By default paypal production auth urls will be used, please set PAYPAL_ENV=sandbox as environment variable for testing
 		//in sandbox environment
+		// paypal 默认使用产品环境下的认证URLs，在测试沙盒环境下请设置 PAYPAL_ENV=sandbox 环境变量
 		paypal.New(os.Getenv("PAYPAL_KEY"), os.Getenv("PAYPAL_SECRET"), "http://localhost:3000/auth/paypal/callback"),
 		steam.New(os.Getenv("STEAM_KEY"), "http://localhost:3000/auth/steam/callback"),
 		heroku.New(os.Getenv("HEROKU_KEY"), os.Getenv("HEROKU_SECRET"), "http://localhost:3000/auth/heroku/callback"),
@@ -351,3 +388,5 @@ var userTemplate = `
 
 
 *high level and low level, no performance differences*
+
+*复杂 和 简单， 没有性能上的不同*
