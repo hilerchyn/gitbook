@@ -1,10 +1,15 @@
-# Internationalization and Localization
+# 本地化与国际化 / Internationalization and Localization
 
 [This is a middleware](https://github.com/iris-contrib/middleware/tree/master/i18n)
 
-## Tutorial
+[这是个中间件](https://github.com/iris-contrib/middleware/tree/master/i18n)
+
+## 教程 / Tutorial
 
 Create folder named 'locales'
+
+创建名为 `locales` 的文件夹
+
 ```
 ///Files: 
 
@@ -12,10 +17,16 @@ Create folder named 'locales'
 ./locales/locale_el-US.ini 
 ```
 Contents on locale_en-US:
+
+locale_en-US 的内容:
+
 ``` 
 hi = hello, %s
 ``` 
 Contents on locale_el-GR:
+
+locale_el-GR 的内容:
+
 ``` 
 hi = Γειά, %s
 ``` 
@@ -40,7 +51,8 @@ hi = Γειά, %s
 		
 		iris.Get("/", func(ctx *iris.Context) {
 			hi := ctx.GetFmt("translate")("hi", "maki") // hi is the key, 'maki' is the %s, the second parameter is optional
-			language := ctx.Get("language") // language is the language key, example 'en-US'
+			// hi 是key，'maki' 是 %s (格式化字符串), 第二个参数是可选的
+			language := ctx.Get("language") // language is the language key, example 'en-US' / 'language' 是语言的 kye, 如 'en-US'
 
 			ctx.Write("From the language %s translated output: %s", language, hi)
 		})

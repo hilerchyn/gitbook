@@ -1,9 +1,13 @@
-# Graceful
+# 优雅停止 / Graceful
 
 [This is a package](https://github.com/iris-contrib/graceful).
 
+[这是一个包](https://github.com/iris-contrib/graceful).
+
 
 Enables graceful shutdown.
+
+可以优雅停止。
 
 ```go
 
