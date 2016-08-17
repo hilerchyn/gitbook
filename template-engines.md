@@ -41,7 +41,7 @@ Most examples are written for the HTML Template Engine(default and built'n templ
 
 You will see first the template file's code, after the main.go code
 
-你既那个在 main.go 代码后，看到第1个模版文件的代码。
+你将在 main.go 代码之后，看到第1个模版文件的代码。
 
 
 ** HTML Template Engine, and general **

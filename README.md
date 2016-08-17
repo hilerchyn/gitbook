@@ -1,5 +1,4 @@
-<a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" width="300" /> </a>
-
+<!--a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" width="300" /> </a-->
 
 ## 内容目录
 
