@@ -6,7 +6,7 @@ Configuration is a relative package `github.com/kataras/iris/config`
 
 > No need to download it separately, it's downloaded automatically when you install Iris.
 > 
-> 不需要单独下载，当你安装 Iris 时，它已经被自动下载下来了。
+> 不需要单独下载，当你安装 Iris 时，它已经被自动下载了。
 
 ### 为什么? / Why?
 

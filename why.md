@@ -2,12 +2,12 @@
 
 Go is a great technology stack for building scalable, web-based, back-end systems for web applications.
 
-对于web应用来说，Go 是构建可伸缩的、基于web的后端系统很棒的技术栈。
+对于web应用来说，Go 拥有构建可伸缩的、基于web的后端系统很棒的技术栈。
 
 When you think about building web applications and web APIs, or simply building HTTP servers in Go, does your mind go to the standard net/http package?
 Then you have to deal with some common situations like dynamic routing (a.k.a parameterized), security and authentication, real-time communication and many other issues that net/http doesn't solve. 
 
-当你考虑搭建web应用和web API，或者使用Go简单的搭建一个HTTP服务器，你有抱怨过 net/http 标准包吗？你得处理一些普遍的场景，像动态路由(如 参数化)、安全和认证、实时交互和许多 net/http 没有解决的其它问题。
+当你考虑搭建web应用和web API，或者使用Go简单的搭建一个HTTP服务器，你有抱怨过 net/http 标准包吗？你得处理一些常见的情况，像动态路由(如 参数化)、安全和认证、实时通信和许多 net/http 没有解决的问题。
 
 The net/http package is not complete enough to quickly build well-designed back-end web systems. When you realize this, you might be thinking along these lines:
 

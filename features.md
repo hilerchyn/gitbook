@@ -10,7 +10,7 @@
  
 * **Online IDE**: Edit & Compile your client side code when you are not home via the [editor plugin](plugin-editor.md)
 
- **在线IDE** 当你不再家是你可以通过 [编辑器插件](plugin-editor.md) 来编辑、编译你的客户端代码。
+ **在线IDE** 当你不在家时可以通过 [编辑器插件](plugin-editor.md) 来编辑、编译你的客户端代码。
 
 * **Iris Online Control**: Web-based interface to control the basics functionalities of your server via the [iriscontrol plugin](plugin-iriscontrol.md). Note that Iris control is still young
 
