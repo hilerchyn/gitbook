@@ -122,6 +122,7 @@ Leave("anyCustomRoom")
 OnDisconnect(func(){})
 
 // Force-disconnect the client from the server-side
+// 从服务器端强制断开客户端的连接
 Disconnect() error
 ```
 
