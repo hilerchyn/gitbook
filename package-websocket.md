@@ -105,11 +105,11 @@ To("anyCustomRoom").Emit/EmitMessage...
 
 // Send to all opened connections/clients
 // 向所有开启的连接和客户端发送数据
-To(websocket.All).Emit/EmitMessage...
+To(iris.All).Emit/EmitMessage...
 
 // Send to all opened connections/clients EXCEPT this client(c)
 // 向除了这个客户端以外的所有开启的连接或客户端发送数据
-To(websocket.NotMe).Emit/EmitMessage...
+To(iris.NotMe).Emit/EmitMessage...
 
 // Rooms, group of connections/clients
 // 连接或客户端的房间或组
@@ -121,6 +121,8 @@ Leave("anyCustomRoom")
 // 当连接关闭时触发此函数
 OnDisconnect(func(){})
 
+// Force-disconnect the client from the server-side
+Disconnect() error
 ```
 
 ## 如何使用 / How to use
@@ -156,7 +158,7 @@ func main() {
 	iris.Config.Websocket.Endpoint = "/my_endpoint"
 	// for Allow origin you can make use of the middleware
 	// 你可以使用中间件来 Allow 源
-	//iris.Config().Websocket.Headers["Access-Control-Allow-Origin"] = "*"
+	//iris.Config.Websocket.Headers["Access-Control-Allow-Origin"] = "*"
 
 	var myChatRoom = "room1"
 	iris.Websocket.OnConnection(func(c iris.WebsocketConnection) {
@@ -166,7 +168,7 @@ func main() {
 		c.On("chat", func(message string) {
 			// to all except this connection ->
 			// 给除了此连接的其它连接发送消息 ->
-			//c.To(websocket.Broadcast).Emit("chat", "Message from: "+c.ID()+"-> "+message)
+			//c.To(iris.Broadcast).Emit("chat", "Message from: "+c.ID()+"-> "+message)
 
 			// to the client ->
 			// 发送给客户端 ->

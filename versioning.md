@@ -1,6 +1,6 @@
 # 版本 Versioning
 
-Current: **v4.0.0-alpha.5**
+Current: **v4.0.0**
 
 当前版本: **v4.0.0-alpha.5**
 

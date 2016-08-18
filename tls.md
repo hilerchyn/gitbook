@@ -24,9 +24,8 @@ Listen(addr string)
 // host:port
 //
 // It panics on error if you need a func to return an error, use the ListenTo
-// ListenTLS 发生错误时会引发恐慌，如果需要一个返回错误的函数，那么请使用 ListenTo
-// ex: err := iris.ListenTo(":8080","yourfile.cert","yourfile.key")
-// 如: err := iris.ListenTo(":8080","yourfile.cert","yourfile.key")
+// ex: err := iris.ListenTo(config.Server{":8080","yourfile.cert","yourfile.key"})
+// 如: err := iris.ListenTo(config.Server{":8080","yourfile.cert","yourfile.key"})
 ListenTLS(addr string, certFile string, keyFile string)
 
 // ListenTLSAuto starts a server listening at the specific nat address
@@ -55,7 +54,7 @@ ListenTLSAuto(addr string)
 //
 // It panics on error if you need a func to return an error, use the ListenTo
 // 此函数发生错误时会引发恐慌，如果你需要返回错误的函数，请使用 ListenTo
-// ex: err := iris.ListenTo(":8080", Mode: os.FileMode)
+// ex: err := iris.ListenTo(config.Server{":8080", Mode: os.FileMode})
 // 如: err := iris.ListenTo(config.Server{":8080", Mode: os.FileMode})
 ListenUNIX(addr string, mode os.FileMode)
 
@@ -67,7 +66,7 @@ ListenUNIX(addr string, mode os.FileMode)
 // 它不是阻塞应用
 ListenVirtual(optionalAddr ...string) *Server
 
-// ListenTo listens to a server but acceots the full server's configuration
+// ListenTo listens to a server but accepts the full server's configuration
 // ListenTo 启动监听服务器，且接受所有服务器配置
 // returns an error, you're responsible to handle that
 // 返回错误，由你负责处理

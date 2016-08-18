@@ -111,9 +111,6 @@ var configs = oauth.Config{
 	FacebookName:   "facebook", // defaults to facebook / 默认为 facebook
 }
 
-func init() {
-	iris.Config.Sessions.Provider = "memory"
-}
 
 // ProviderIndex ...
 // 供应者索引 ...
@@ -249,9 +246,6 @@ import (
 	"github.com/markbates/goth/providers/yammer"
 )
 
-func init() {
-	iris.Config.Sessions.Provider = "memory" // or "redis" and configure the Redis Provider / 或者 "redis" 来配置 Redis Provider
-}
 
 func main() {
 	goth.UseProviders(
