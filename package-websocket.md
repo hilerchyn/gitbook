@@ -1,16 +1,22 @@
 # Websockets
 
-**WebSocket is a protocol providing full-duplex communication channels over a single TCP connection**. The WebSocket protocol was standardized by the IETF as RFC 6455 in 2011, and the WebSocket API in Web IDL is being standardized by the W3C.
+**WebSocket is a protocol providing full-duplex communication channels over a single TCP connection**.   
+The WebSocket protocol was standardized by the IETF as RFC 6455 in 2011, and the WebSocket API in Web IDL is being standardized by the W3C.
 
-**WebSocket 是一个通过一个TCP连接提供全双工交互通道的协议**。 WebSocket 协议 被 IETF 在 2011年时指定成 RFC 6455 标准高， 并且 Web IDL 的 WebSocket API 被 W3C 标准化。
+**Websocket是一种通过一个单独的TCP连接提供全双工交互通道的协议**
+WebSocket协议在2011年被IETF标准化为RFC 6455，并且被W3C标准化了Web IDL的WebSocket API。
 
-WebSocket is designed to be implemented in web browsers and web servers, but it can be used by any client or server application. The WebSocket Protocol is an independent TCP-based protocol. Its only relationship to HTTP is that its handshake is interpreted by HTTP servers as an Upgrade request. The WebSocket protocol makes more interaction between a browser and a website possible, **facilitating the real-time data transfer from and to the server**. 
+WebSocket is designed to be implemented in web browsers and web servers, but it can be used by any client or server application. 
+The WebSocket protocol is an independent TCP-based protocol. Its only relationship to HTTP is that its handshake is interpreted by HTTP servers as an Upgrade request. 
+The WebSocket protocol makes more interaction between a browser and a website possible, **facilitating real-time data transfer from and to the server**.
 
-WebSocket 分别在 web 浏览器和 web 服务器 中实现，但可以被人和客户端或服务器端应用程序使用。WebSocket协议时一个基于TCP协议的独立实现。跟HTTP唯一相关的事它的握手被HTTP服务器集成为一个升级(Upgrade)后的请求。WebSocket 协议提供更多浏览器和网站间交互的可能性，**便于客户端和服务器端的实时数据传输**。
+WebSocket 的设计需要在浏览器和网站服务器实现，它可以在任何客户端和服务器端应用程序中使用。
+WebSocket 协议是基于TCP协议的独立协议。它跟HTTP的唯一关系就是它的握手协议由HTTP服务器作为一个升级(Upgrade)请求集成。
+Websocket 协议使得浏览器和站点之间可能很多交互， **来自或发往服务器的灵活的实时数据传输**。
 
-[Read more about Websockets via wikipedia](https://en.wikipedia.org/wiki/WebSocket)
+[Read more about Websockets on Wikipedia](https://en.wikipedia.org/wiki/WebSocket).
 
-[通过维基百科了解更多 Websockets 的内容](https://en.wikipedia.org/wiki/WebSocket)
+[通过维基百科了解更多 Websockets 的内容](https://en.wikipedia.org/wiki/WebSocket)。
 
 -----
 
@@ -18,8 +24,8 @@ WebSocket 分别在 web 浏览器和 web 服务器 中实现，但可以被人�
 
 ```go
 type Websocket struct {
-	// WriteTimeout time allowed to write a message to the connection.
-	// WriteTimeout 允许将消息写入连接的限制时间
+	// WriteTimeout time allowed to write a message to the connection
+	// WriteTimeout 允许将消息写入连接的时间
 	// Default value is 15 * time.Second
 	// 默认值为 15 * time.Second
 	WriteTimeout time.Duration
@@ -38,13 +44,20 @@ type Websocket struct {
 	// Default value is 1024
 	// 默认值为 1024
 	MaxMessageSize int64
-	// Endpoint is the path which the websocket server will listen for clients/connections
-	// Endpoint websocket 服务器的给 客户端或连接 提供访问的监听路径
-	// Default value is empty string, if you don't set it the Websocket server is disabled.
-	// 默认值为空字符串，如果你不设置的话 Websocket 服务器将被禁用。
+	// BinaryMessages set it to true in order to denotes binary data messages instead of utf-8 text
+	// BinaryMessages 如果设置为 true，那么意味着用二进制数据消息代替utf-8文本消息
+	// see https://github.com/kataras/iris/issues/387#issuecomment-243006022 for more
+	// 从 https://github.com/kataras/iris/issues/387#issuecomment-243006022 了解更多
+	// defaults to false
+	// 默认为 false
+	BinaryMessages bool
+	// Endpoint is the path at which the websocket server will listen for clients/connections
+	// Endpoint websocket服务器监听客户端/连接的路径
+	// Default value is an empty string, if you don't set it, the Websocket server gets disabled.
+	// 默认值为空字符串，如果你不设置的话，Websocket服务器将被禁用。
 	Endpoint string
-	// Headers  the response headers before upgrader
-	// Headers 在upgrader 之前的应答头信息
+	// Headers the response headers before the upgrade
+	// Headers upgrade 之前的应答头信息
 	// Default is empty
 	// 默认为 空
 	Headers map[string]string
@@ -60,6 +73,10 @@ type Websocket struct {
 
 ```go
 iris.Config.Websocket.Endpoint = "/myEndpoint"
+// or
+iris.Set(iris.OptionWebsocketEndpoint("/myEndpoint")
+// or 
+iris.New(iris.Configuration{Websocket: iris.WebsocketConfiguration{Endpoint: "/myEndpoint"}})
 ```
 
 ## 概述 / Outline
@@ -154,8 +171,8 @@ func main() {
 		ctx.Render("client.html", clientPage{"Client Page", ctx.HostString()})
 	})
 
-	// the path which the websocket client should listen/registed to ->
-	// websocket 客户端应该 监听或注册到的路径 ->
+	// the path at which the websocket client should register itself to
+	// 客户端应该将自己注册到的路径
 	iris.Config.Websocket.Endpoint = "/my_endpoint"
 	// for Allow origin you can make use of the middleware
 	// 你可以使用中间件来 Allow 源
@@ -175,9 +192,9 @@ func main() {
 			// 发送给客户端 ->
 			//c.Emit("chat", "Message from myself: "+message)
 
-			//send the message to the whole room,
+			// send the message to the whole room,
 			// 向整个房间发送消息
-			//all connections are inside this room will receive this message
+			// all connections which are inside this room will receive this message
 			// 所有房间内的连接都会接收到这个消息
 			c.To(myChatRoom).Emit("chat", "From: "+c.ID()+": "+message)
 		})
@@ -271,6 +288,6 @@ function appendMessage(messageDiv) {
 ```
 
 
-View a working example by navigating [here](https://github.com/iris-contrib/examples/tree/master/websocket) and if you need more than one websocket server [click here](https://github.com/iris-contrib/examples/tree/master/websocket_unlimited_servers)
+View a working example by navigating [here](https://github.com/iris-contrib/examples/tree/master/websocket) and if you need more than one websocket server [click here](https://github.com/iris-contrib/examples/tree/master/websocket_unlimited_servers).
 
-到[这里](https://github.com/iris-contrib/examples/tree/master/websocket) 查看一个可用的示例，如果你需要不只一个websocket 服务器的话点击[这里](https://github.com/iris-contrib/examples/tree/master/websocket_unlimited_servers)
+到[这里](https://github.com/iris-contrib/examples/tree/master/websocket) 查看一个可用的示例，如果你需要不只一个websocket 服务器的话点击[这里](https://github.com/iris-contrib/examples/tree/master/websocket_unlimited_servers)。

@@ -2,7 +2,7 @@
 
 Serve a static directory
 
-服务于一个静态目录
+伺服一个静态目录
 
 ```go
 
@@ -11,13 +11,13 @@ Serve a static directory
 // Accepts 5 parameters
 // 接受 5 个参数
 //
-// first is the systemPath (string)
-// 第1个是 systemPath (string)
+// first param is the systemPath (string)
+// 第1个参数是 systemPath (string)
 // Path to the root directory to serve files from.
 // 服务的文件来自于路径的跟目录。
 //
-// second is the  stripSlashes (int) level
-// 第2个是 stripSlashed (int) 级别
+// second is the stripSlashes (int) level
+// 第2个参数是 stripSlashes (int) 级别
 // * stripSlashes = 0, original path: "/foo/bar", result: "/foo/bar"
 // * stripSlashes = 0, 原始路径: "/foo/bar", 结果: "/foo/bar"
 // * stripSlashes = 1, original path: "/foo/bar", result: "/bar"
@@ -28,7 +28,7 @@ Serve a static directory
 // third is the compress (bool)
 // 第3个是 compress (bool)
 // Transparently compresses responses if set to true.
-// 如果设置为true的话将透明压缩响应。
+// 如果设置为true的话将显式压缩响应。
 //
 // The server tries minimizing CPU usage by caching compressed files.
 // 服务器通过缓存压缩后的文件来尝试最小化CPU的使用率。
@@ -143,11 +143,11 @@ StaticWeb(relative string, systemPath string, stripSlashes int)
 // Almost same usage as StaticWeb
 // 用例与 StaticWeb 几乎相同
 // accepts only one required parameter which is the systemPath 
-// 如果第2个参数为空的话，只接收系统路径一个必须参数
-// ( the same path will be used to register the GET&HEAD routes)
+// 只接受一个必需参数就是 systemPath
+// (the same path will be used to register the GET&HEAD routes)
 // ( 相同的路径被用作注册 GET&HEAD 路由 )
-// if second parameter is empty, otherwise the requestPath is the second parameter
-// 否则的话第2个参数是请求路径
+// if the second parameter is empty, otherwise the requestPath is the second parameter
+// 除非第2个参数为空，否则的话 requestPath 是第2个参数
 // it uses gzip compression (compression on each request, no file cache)
 // 它使用 gzip 压缩 (每次请求都会压缩，没有文件缓存)
 StaticServe(systemPath string, requestPath ...string)
@@ -155,7 +155,6 @@ StaticServe(systemPath string, requestPath ...string)
 ```
 
 ```go
-
 iris.Static("/public", "./static/assets/", 1)
 //-> /public/assets/favicon.ico
 ```
@@ -200,7 +199,6 @@ Serve static individual file
 iris.Get("/txt", func(ctx *iris.Context) {
     ctx.ServeFile("./myfolder/staticfile.txt", false)
 }
-
 ```
 
 For example if you want manual serve static individual files dynamically you can do something like that:
@@ -233,10 +231,9 @@ func main() {
     
     iris.Listen(":8080")
 }
-
 ```
 
-The previous example is almost identical with
+The previous example is almost identical with:
 
 前面的例子跟下面这个函数几乎完全相同
 
@@ -253,7 +250,6 @@ func main() {
   // 使用 gzip 压缩 ( 没有文件缓存，压缩的文件缓存使用 StaticFS)
   iris.Listen(":8080")
 }
-
 ```
 
 ```go
@@ -263,8 +259,13 @@ func main() {
   // 将文件系统路径 ./static/mywebpage 内的所有文件 向 GET&HEAD 路由: 0.0.0.0:8080/webpage 提供服务
   iris.Listen(":8080")
 }
-
 ```
+
+### Disabling caching
+
+`Static`, `StaticFS` and `StaticWeb` functions automatically cache the given files for a period of time (default 20 seconds). In certain situations you don't want that caching to happen (development etc.). 
+
+Caching can be disabled by setting `github.com/kataras/iris/config`'s `StaticCacheDuration` to `time.Duration(1)` **before calling any of the named functions**. Setting `StaticCacheDuration` to `time.Duration(0)` will reset the cache time to 10 seconds (as specified in fasthttp).
 
 ## Favicon
 

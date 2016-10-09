@@ -3,7 +3,7 @@
 
 [这是一个中间件](https://github.com/kataras/iris/tree/master/middleware/cors).
 
-Some security work for you between the requests.
+Some security work for between you and the requests.
 
 在请求之间给你一些安全性的功能。
 
@@ -86,7 +86,7 @@ import "github.com/iris-contrib/middleware/cors"
 cors.New(cors.Options{})
 ```
 
-Example
+Example:
 
 示例
 

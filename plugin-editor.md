@@ -9,7 +9,8 @@ Editor Plugin is just a bridge between Iris and [alm-tools](http://alm.tools).
 编辑器插件只是 Iris 和 [alm-tools](http://alm.tools)
 
 
-[alm-tools](http://alm.tools) is a typescript online IDE/Editor, made by [@basarat](https://twitter.com/basarat) one of the top contributors of the [Typescript](http://www.typescriptlang.org).
+[alm-tools](http://alm.tools) is a typescript online IDE/Editor, made by [@basarat](https://twitter.com/basarat) 
+one of the top contributors of the [Typescript](http://www.typescriptlang.org) language.
 
 [alm-tools](http://alm.tools) 是一个 typescript 在线 IDE/Editor, 由[Typescript](http://www.typescriptlang.org)的顶级贡献者之一[@basarat](https://twitter.com/basarat)创建。
 
@@ -18,7 +19,7 @@ Iris gives you the opportunity to edit your client-side using the alm-tools edit
 Iris 给你使用编辑器插件 alm-tools 编辑器来编辑客户端内容的机会。
 
 
-This plugin starts it's own server, if Iris server is using TLS then the editor will use the same key and cert.
+This plugin starts it's own server. If Iris server is using TLS then the editor will use the same key and cert.
 
 这个插件启动它自己的服务器，如果Iris 服务器使用TLS 那么编辑器将使用同样的key 和 cert。
 
@@ -35,7 +36,7 @@ import (
 
 func main(){
 	e := editor.New() 
-   // editor.Config{ Username: "admin", Password: "admin!123", Port: 4444, WorkingDir: "/public/scripts"}
+	// editor.Config{ Username: "admin", Password: "admin!123", Port: 4444, WorkingDir: "/public/scripts"}
 
 	iris.Plugins.Add(e)
 
@@ -48,12 +49,14 @@ func main(){
 ```
 
 **Note for username, password**: The Authorization specifies the authentication mechanism (in this case Basic) followed by the username and password.
-Although, the string aHR0cHdhdGNoOmY= may look encrypted it is simply a base64 encoded version of username:password.
-Would be readily available to anyone who could intercept the HTTP request. [Read more here](https://www.httpwatch.com/httpgallery/authentication).
+Although the string aHR0cHdhdGNoOmY= may look encrypted it is simply a base64 encoded version of username:password.
+Would be readable to anyone who could intercept the HTTP request (if TLS is not used). [Read more here](https://www.httpwatch.com/httpgallery/authentication).
 
-**注意username 和 password**: 身份认证指定了使用 username 和 password 的授权机制(示例中是最基本的)。最然字符串 aHR0cHdhdGNoOmY= 看起来像加密过的，它其实是使用 base64 加密的 username:password 。对任何能够拦截HTTP请求的过程而言是随时可用的。[了解更多](https://www.httpwatch.com/httpgallery/authentication).
+**注意username 和 password**: 身份认证指定了使用 username 和 password 的授权机制(示例中是最基本的)。
+最然字符串 aHR0cHdhdGNoOmY= 看起来像加密过的，它其实是使用 base64 加密的 username:password。
+对任何能够拦截HTTP请求的动作而言是可读的。[了解更多](https://www.httpwatch.com/httpgallery/authentication)。
 
-> The editor can't work if the directory doesn't contains a [tsconfig.json](http://www.typescriptlang.org/docs/handbook/tsconfig.json.html).
+> The editor can't work if the directory doesn't contain a [tsconfig.json](http://www.typescriptlang.org/docs/handbook/tsconfig.json.html).
 > 
 > 如果目录不含有[tsconfig.json](http://www.typescriptlang.org/docs/handbook/tsconfig.json.html)那么编辑器不能工作。
 

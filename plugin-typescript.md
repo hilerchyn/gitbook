@@ -40,7 +40,7 @@ This is an Iris and typescript bridge plugin.
 
 ### 选项 / Options
 
- - **Bin**: string, the typescript installation path/bin/tsc or tsc.cmd, if empty then it will search to the global npm modules
+ - **Bin**: string, the typescript installation path/bin/tsc or tsc.cmd, if empty then it will search the global npm modules
  - **Bin**: string, typescript 安装的路径 path/bin/tsc 或 tsc.cmd ， 如果为空那么会搜索nmp全局模块
  - **Dir**: string, Dir set the root, where to search for typescript files/project. Default "./" 
  - **Dir**: string, Dir 设置搜索typescript文件或项目的根路径，默认为 "./"
@@ -74,7 +74,7 @@ func main(){
     // or typescript.DefaultConfig()
     // 或 typescript.DefaultConfig()
 
-    iris.Plugins.Add(typescript.New(ts)) //or with the default options just: typescript.New()
+    iris.Plugins.Add(typescript.New(ts)) // or with the default options just: typescript.New()
     // 或只使用默认选项: typescript.New()
 
     iris.Get("/", func (ctx *iris.Context){})

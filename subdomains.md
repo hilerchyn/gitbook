@@ -1,8 +1,8 @@
 # 子域名 / Subdomains
 
-Subdomains are split into two categories, first is the static subdomain and second is the dynamic subdomain.
+Subdomains are split into two categories: static subdomain and dynamic subdomain.
 
-子域名被分成了两类，第1类是静态子域名，第2类是动态子域名。
+子域名被分成了两类：静态子域名 和 动态子域名。
 
 * static : when you know the subdomain, usage: `controlpanel.mydomain.com` 
 * 静态 : 当你知道子域名时，用例: `controlpanel.mydomain.com`
@@ -35,10 +35,12 @@ func main() {
         admin.Get("/", func(c *iris.Context) {
             c.Write("INDEX FROM admin.mydomain.com")
         })
+
         // admin.mydomain.com/hey
         admin.Get("/hey", func(c *iris.Context) {
             c.Write("HEY FROM admin.mydomain.com/hey")
         })
+
         // admin.mydomain.com/hey2
         admin.Get("/hey2", func(c *iris.Context) {
             c.Write("HEY SECOND FROM admin.mydomain.com/hey")
@@ -60,50 +62,54 @@ func main() {
 
 ```
 
-**Dynamic/Wildcard **
+**Dynamic / Wildcard**
 
 **动态/匹配**
 
 ```go
-
-// Package main an example on how to catch dynamic subdomains - wildcard.
+// Package "main" is an example on how to catch dynamic/wildcard subdomains.
 // main 包是一个如何抓取动态（匹配）子域名的例子。
-// On the first example (subdomains_1) we saw how to create routes for static subdomains, subdomains you know that you will have.
-// 在第一个例子中(subdomains_1)我们看到了如何为静态子域名创建路由，你了解这个将要使用的子域名。
-// Here we will see an example how to catch unknown subdomains, dynamic subdomains, like username.mydomain.com:8080.
-// 这里我们将看一个如何捕捉为止子域名的例子，动态子域名，就行 username.mydomain.com:8000 。
+// On the first example (subdomains_1) we saw how to create routes for static subdomains, 
+// subdomains you know that you will have.
+// 在第一个例子中(subdomains_1)我们看到了如何为已知静态子域名创建路由。
+// Here we see an example on how to catch unknown subdomains, dynamic subdomains, 
+// like username.mydomain.com:8080.
+// 这里我们将看一个如何捕捉未知子域名的例子，动态子域名，就像 username.mydomain.com:8080 。
 
 package main
 
 import "github.com/kataras/iris"
 
-// register a dynamic-wildcard subdomain to your server machine(dns/...) first, check ./hosts if you use windows.
+// first register a dynamic-wildcard subdomain to your server machine(dns/...) (check ./hosts if you use windows).
 // 首先在你的服务器上(dns/...)注册一个动态匹配的子域名，如果你用的是 windows 那么找到 ./hosts 文件。
-// run this file and try to redirect: http://username1.mydomain.com:8080/ , http://username2.mydomain.com:8080/ , http://username1.mydomain.com/something, http://username1.mydomain.com/something/sadsadsa
+// run this file and try to redirect: http://username1.mydomain.com:8080/, http://username2.mydomain.com:8080/, http://username1.mydomain.com/something, http://username1.mydomain.com/something/sadsadsa
 // 打开这个文件并重定向下面的内容: http://username1.mydomain.com:8080/ , http://username2.mydomain.com:8080/ , http://username1.mydomain.com/something, http://username1.mydomain.com/something/sadsadsa
 
 func main() {
-    /* Keep note that you can use both of domains now (after 3.0.0-rc.1)
-       admin.mydomain.com,  and for other the Party(*.) but this is not this example's purpose
-       
-       需要注意的是现在你可以同时使用静态和动态子域名了(3.0.0-rc.1以后的版本)
-       admin.mydomain.com,  Party(*.) 用作其它子域名，单着不是此示例的目的。
+    /* 
+        Keep note that you can use both of domains now (after 3.0.0-rc.1)
+        admin.mydomain.com,  and for other the Party(*.) but this is not this example's purpose
+        需要注意的是现在你可以同时使用静态和动态子域名了(3.0.0-rc.1以后的版本)
+        admin.mydomain.com,  Party(*.) 用作其它子域名，但这不是此示例的目的。
 
-    admin := iris.Party("admin.")
-    {
-        // admin.mydomain.com
-        admin.Get("/", func(c *iris.Context) {
-            c.Write("INDEX FROM admin.mydomain.com")
-        })
-        // admin.mydomain.com/hey
-        admin.Get("/hey", func(c *iris.Context) {
-            c.Write("HEY FROM admin.mydomain.com/hey")
-        })
-        // admin.mydomain.com/hey2
-        admin.Get("/hey2", func(c *iris.Context) {
-            c.Write("HEY SECOND FROM admin.mydomain.com/hey")
-        })
-    }*/
+        admin := iris.Party("admin.")
+        {
+            // admin.mydomain.com
+            admin.Get("/", func(c *iris.Context) {
+                c.Write("INDEX FROM admin.mydomain.com")
+            })
+
+            // admin.mydomain.com/hey
+            admin.Get("/hey", func(c *iris.Context) {
+                c.Write("HEY FROM admin.mydomain.com/hey")
+            })
+
+            // admin.mydomain.com/hey2
+            admin.Get("/hey2", func(c *iris.Context) {
+                c.Write("HEY SECOND FROM admin.mydomain.com/hey")
+            })
+        }
+    */
 
     dynamicSubdomains := iris.Party("*.")
     {
@@ -128,7 +134,7 @@ func main() {
 func dynamicSubdomainHandler(ctx *iris.Context) {
     username := ctx.Subdomain()
     ctx.Write("Hello from dynamic subdomain path: %s, here you can handle the route for dynamic subdomains, handle the user: %s", ctx.PathString(), username)
-    // if  http://username4.mydomain.com:8080/ prints:
+    // if http://username4.mydomain.com:8080/ prints:
     // 如果访问 http://username4.mydomain.com:8080/ 将输出:
     // Hello from dynamic subdomain path: /, here you can handle the route for dynamic subdomains, handle the user: username4
 }
@@ -138,15 +144,11 @@ func dynamicSubdomainHandlerWithParam(ctx *iris.Context) {
     ctx.Write("Hello from dynamic subdomain path: %s, here you can handle the route for dynamic subdomains, handle the user: %s", ctx.PathString(), username)
     ctx.Write("THE PARAM1 is: %s", ctx.Param("param1"))
 }
-
-
 ```
 
 > You can still set unlimitted number of middleware\/handlers to the dynamic subdomains also
 > 
-> 你仍然也可以给动态子域名设置无数的中间件/处理器
-
-
+> 你仍然也可以给动态子域名设置多个中间件/处理器
 
 You noticed the comments  'subdomains\_1' and so on, this is because almost all book's code shots, are running examples.
 
@@ -155,4 +157,3 @@ You noticed the comments  'subdomains\_1' and so on, this is because almost all 
 You can find them by pressing [here.](https://github.com/iris-contrib/examples)
 
 你可以点击 [这里](https://github.com/iris-contrib/examples) 找到它们。
-

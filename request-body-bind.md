@@ -1,6 +1,6 @@
 # 请求体绑定器 ／ Body binder
 
-Body binder reads values from the body and set them to a specific object.
+Body binder reads values from the body and sets them to a specific object.
 
 请求体绑定器从请求体中读取内容并把相应的值设置到指定的对象。
 
@@ -13,14 +13,14 @@ ReadJSON(jsonObject interface{}) error
 // ReadXML 从请求体中读取 XML
 ReadXML(xmlObject interface{}) error
 
-// ReadForm binds the formObject  to the requeste's form data
+// ReadForm binds the formObject to the requeste's form data
 // ReadForm 将 formObject 绑定到请求的表单数据上
 ReadForm(formObject interface{}) error
 ```
 
-How to use
+How to use:
 
-如何使用
+如何使用:
 
 ### JSON
 
@@ -166,7 +166,7 @@ The supported field types in the destination struct are:
 #### 自定义序列化 ／ Custom Marshaling
 
 
-Is possible unmarshaling data and the key of a map by the `encoding.TextUnmarshaler` interface.
+It's possible to unmarshal data and the key of a map by using the `encoding.TextUnmarshaler` interface.
 
 通过 `encoding.TextUnmarshaler` 接口可以反序列化map的数据和key
 
@@ -245,9 +245,9 @@ func main() {
 
 ##### HTML 表单 / In form html
 
-- Use symbol `.` for access a field/key of a structure or map. (i.e, `struct.key`)
+- Use symbol `.` to access a field/key of a structure or map. (i.e., `struct.key`)
 - 使用 `.` 符号访问结构体或映射的 field/key。 （ 如, `struct.key`)
-- Use `[int_here]` for access to index of a slice/array. (i.e, `struct.array[0]`)
+- Use `[int_here]` to access an index of a slice/array. (i.e, `struct.array[0]`)
 - 使用 `[整数]` 访问切片或数组索引位置的内容。（如，`struct.array[0]`)
 
 ```html
@@ -273,7 +273,7 @@ func main() {
 
 ##### 后端 / Backend
 
-You can use the tag `form` if the name of a input of form starts lowercase.
+You can use the tag `form` if the name of an input or form starts lowercase.
 
 如果表单input框的名字的第一个字母是小写，你可以使用 `form` 标签来绑定。
 

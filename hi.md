@@ -14,7 +14,7 @@ func main() {
 
 ```
 
-The same
+The same:
 
 同样可写成
 
@@ -35,13 +35,13 @@ func hi(ctx *iris.Context){
 
 ```
 
-Rich Hi with **html\/template**
+Rich Hi with **html\/template**:
 
 使用 **html\/template** 丰富 Hi 示例
 
 ```html
 <!-- ./templates/hi.html -->
-<html><head> <title> Hi Iris [THE TITLE] </title> </head>
+<html><head> <title> Hi Iris</title> </head>
   <body>
     <h1> Hi {{.Name}} </h1>
   </body>
@@ -65,7 +65,7 @@ func hi(ctx *iris.Context){
 
 ```
 
-Rich Hi with **Django-syntax**
+Rich Hi with **Django-syntax**:
 
 使用 **Django-syntax** 丰富 Hi 示例
 
@@ -84,7 +84,7 @@ Rich Hi with **Django-syntax**
 // ./main.go
 import (
     "github.com/kataras/iris"
-    "github.com/iris-contrib/template/django"
+    "github.com/kataras/go-template/django"
 )
 
 func main() {
@@ -99,7 +99,7 @@ func hi(ctx *iris.Context){
 
 ```
 
-* More about render and template engines [here](render.md)
+More about render and template engines [here](render.md).
 
 * 关于渲染和模版引擎的更多内容在 [这里](render.md)
 

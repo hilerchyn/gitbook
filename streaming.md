@@ -7,10 +7,8 @@ Do  progressive rendering via multiple flushes, streaming.
 
 
 ```go
-// StreamWriter registers the given stream writer for populating
-// response body.
-// StreamWriter 注册给定的流writer来填充响应体
-//
+// StreamWriter registers the given stream writer for populating the response body.
+// StreamWriter 为填充应答体注册流写入器。
 //
 // This function may be used in the following cases:
 // 这个函数也许会在下面几种情况下被用到：
@@ -24,14 +22,12 @@ Do  progressive rendering via multiple flushes, streaming.
 //     (aka `http server push`).
 //     (亦称作 ｀HTTP 服务器推送｀)
 StreamWriter(cb func(writer *bufio.Writer))
-
 ``` 
 
 
 ## 用例 / Usage example
 
 ```go
-
 package main
 
 import(
@@ -51,29 +47,28 @@ func main() {
 
 func stream(w *bufio.Writer) {
 	for i := 0; i < 10; i++ {
-			fmt.Fprintf(w, "this is a message number %d", i)
+		fmt.Fprintf(w, "this is a message number %d", i)
 
-			// Do not forget flushing streamed data to the client.
-			// 不要忘记将流数据刷新到客户端。
-			if err := w.Flush(); err != nil {
-				return
-			}
-			time.Sleep(time.Second)
+		// Do not forget flushing streamed data to the client.
+		// 不要忘记将流数据刷新到客户端。
+		if err := w.Flush(); err != nil {
+			return
 		}
+		time.Sleep(time.Second)
+	}
 }
 
 ```
 
-To achieve the oposite make use of the ` StreamReader` 
+To achieve the oposite make use of the ` StreamReader`:
 
-`StreamReader` 达到相反的用途
-
+完成相反的作用可使用 `StreamREader`:
 
 ```go
-// StreamReader sets response body stream and, optionally body size.
-// StreamReader 设置响应体流的读取器，还可以设置读取内容的大小。
+// StreamReader sets the response body stream and optionally body size.
+// StreamReader 设置应答体流和可选应答体尺寸。
 //
-// If bodySize is >= 0, then the bodyStream must provide exactly bodySize bytes
+// If bodySize is >= 0, then the bodyStream must provide the exact bodySize bytes 
 // before returning io.EOF.
 // 如果读区内容尺寸 >= 0, 那么在返回 io.EOF 之前 bodyStream 必须给定确切的 字节 大小
 //
@@ -87,5 +82,4 @@ To achieve the oposite make use of the ` StreamReader`
 // See also StreamReader.
 // 那么看一下 StreamReader
 StreamReader(bodyStream io.Reader, bodySize int)
-
 ```

@@ -1,11 +1,11 @@
 ## 安装 / Install
 
-Install one template engine and all will be installed.
+Install the go-template package.
 
-安装一个模版引擎所有的都会被安装上。
+安装 go-template 包。
 
 ```sh
-$ go get -u github.com/iris-contrib/template/html
+$ go get -u github.com/kataras/go-template
 ```
 
 ## Iris 的站点配置 / Iris' Station configuration 
@@ -16,8 +16,16 @@ Remember, when 'station' we mean the default `iris.$CALL ` or `api:= iris.New();
 
 ```go
 iris.Config.IsDevelopment = true // reloads the templates on each request, defaults to false / 每次请求都重新加载模版，默认值为 false
-iris.Config.Gzip  = true // compressed gzip contents to the client, the same for Response Engines also, defaults to false / 向客户端发送gzip压缩的内容, 对于 应答引擎来说同样如此设置， 默认值为 false
-iris.Config.Charset = "UTF-8" // defaults to "UTF-8", the same for Response Engines also / 默认字符编码为 "UTF-8", 应答引擎也同样如此
+iris.Config.Gzip  = true // compressed gzip contents to the client, the same for Serializers also, defaults to false / 向客户端发送gzip压缩的内容, 对于序列化引擎来说同样如此设置， 默认值为 false
+iris.Config.Charset = "UTF-8" // defaults to "UTF-8", the same for Serializers also / 默认字符编码为 "UTF-8", 序列化引擎也同样如此
+
+// or
+iris.Set(iris.OptionIsDevelopment(true),iris.OptionGzip(true), iris.OptionCharset("UTF-8"))
+// or
+iris.New(iris.OptionIsDevelopment(true),iris.OptionGzip(true), iris.OptionCharset("UTF-8"))
+// or 
+iris.New(iris.Configuration{IsDevelopment:true, Gzip:true, Charset: "UTF-8" })
+
 ```
 
 The last two options (Gzip, Charset) can be overriden for specific 'Render' action:
@@ -44,7 +52,7 @@ You will see first the template file's code, after the main.go code
 你将在 main.go 代码之后，看到第1个模版文件的代码。
 
 
-** HTML Template Engine, and general **
+**HTML Template Engine, defaulted**
 
 **HTML模版引擎和常规用法**
 
@@ -60,7 +68,6 @@ You will see first the template file's code, after the main.go code
 	<h1>Hi {{.Name}}
 </body>
 </html>
-
 ```
 
 ```go
@@ -115,7 +122,7 @@ func hi(ctx *iris.Context) {
 package main
 
 import (
-	"github.com/iris-contrib/template/html"
+	"github.com/kataras/go-template/html"
 	"github.com/kataras/iris"
 )
 
@@ -211,7 +218,7 @@ func main() {
 package main
 
 import (
-	"github.com/iris-contrib/template/html"
+	"github.com/kataras/go-template/html"
 	"github.com/kataras/iris"
 )
 
@@ -295,7 +302,7 @@ func main() {
 package main
 
 import (
-	"github.com/iris-contrib/template/html"
+	"github.com/kataras/go-template/html"
 	"github.com/kataras/iris"
 )
 
@@ -340,9 +347,9 @@ func main() {
 ```go
 // ./main.go
 // Package main an example on how to naming your routes & use the custom 'url' HTML Template Engine, same for other template engines
-// 此事例用来展示如何命名你的路由，并且使用自定义 'url' 的 HTML 模版引擎，其它模版引擎可以此为参考
-// we don't need to import the iris-contrib/template/html because iris uses this as the default engine if no other template engine has been registered.
-// 我们不需要导入 iris-contrib/template/html 因为如果没有其它模版引擎被注册的话，那么 iris 会使用 HTML 模版引擎座位默认引擎。
+// 此示例用来展示如何命名你的路由，并且使用自定义 'url' 的 HTML 模版引擎，其它模版引擎可以此为参考
+// we don't need to import the kataras/go-template/html because iris uses this as the default engine if no other template engine has been registered.
+// 我们不需要导入 kataras/go-template/html 因为如果没有其它模版引擎被注册的话 iris 会使用 HTML 模版引擎座位默认引擎。
 package main
 
 import (
@@ -501,10 +508,9 @@ func emptyHandler(ctx *iris.Context) {
 ```
 
 
-** Django Template Engine **
+**Django Template Engine**
 
 **Django 模版引擎**
-
 
 ```html
 <!-- ./templates/mypage.html -->
@@ -527,7 +533,7 @@ func emptyHandler(ctx *iris.Context) {
 package main
 
 import (
-	"github.com/iris-contrib/template/django"
+	"github.com/kataras/go-template/django"
 	"github.com/kataras/iris"
 )
 
@@ -574,7 +580,7 @@ is the subdomain part instead of named parameter-->
 package main
 
 import (
-	"github.com/iris-contrib/template/django"
+	"github.com/kataras/go-template/django"
 	"github.com/kataras/iris"
 )
 
@@ -700,7 +706,7 @@ package main
 
 import (
 	"github.com/aymerick/raymond"
-	"github.com/iris-contrib/template/handlebars"
+	"github.com/kataras/go-template/handlebars"
 	"github.com/kataras/iris"
 )
 
@@ -759,12 +765,12 @@ func main() {
 
 ```
 
->  Note than you can see more handlebars examples syntax by navigating [here](https://github.com/aymerick/raymond)
-> 
-> 你可以在[这里](https://github.com/aymerick/raymond)了解跟多 handlebars 示例语法
+>  Note than you can see more handlebars examples syntax by navigating [here](https://github.com/aymerick/raymond)
+>
+>  你可以在 [这里](https://github.com/aymerick/raymond) 了解跟多 handlebars 示例语法
 
 
-** Pug/Jade Template Engine **
+**Pug/Jade Template Engine**
 
 **Pug/Jade 模版引擎**
 
@@ -811,7 +817,7 @@ package main
 import (
 	"html/template"
 
-	"github.com/iris-contrib/template/pug"
+	"github.com/kataras/go-template/pug"
 	"github.com/kataras/iris"
 )
 
@@ -885,7 +891,7 @@ p.
 package main
 
 import (
-	"github.com/iris-contrib/template/pug"
+	"github.com/kataras/go-template/pug"
 	"github.com/kataras/iris"
 )
 
@@ -985,7 +991,7 @@ html
 package main
 
 import (
-	"github.com/iris-contrib/template/amber"
+	"github.com/kataras/go-template/amber"
 	"github.com/kataras/iris"
 )
 
@@ -1008,7 +1014,7 @@ func main() {
 ```
 
 
-** Custom template engine** 
+**Custom template engine** 
 
 **自定义 模版引擎**
 
@@ -1057,13 +1063,13 @@ type (
 
 ```
 
-The simplest implementation, which you can look as example, is the Markdown Engine, which is located [here](https://github.com/iris-contrib/template/tree/master/markdown/markdown.go).
+The simplest implementation, which you can look as example, is the Markdown Engine, which is located [here](https://github.com/kataras/go-template/tree/master/markdown/markdown.go).
 
-你可以作为示例看的最简单实现就是 Markdown 引擎，在 [这里](https://github.com/iris-contrib/template/tree/master/markdown/markdown.go)。
+你可以作为示例看的最简单实现就是 Markdown 引擎，在 [这里](https://github.com/kataras/go-template/tree/master/markdown/markdown.go).
 
 
 
-** iris.TemplateString **
+**iris.TemplateString**
 
 **iris.TemplateString**
 
@@ -1094,16 +1100,17 @@ Executes and parses the template but instead of rendering to the client, it retu
 package main
 
 import (
-	"github.com/iris-contrib/template/django"
+	"github.com/kataras/go-template/django"
 	"github.com/kataras/iris"
 )
 
 func main() {
-	iris.UseTemplate(django.New()).Directory("./templates", ".html")
+
+	iris.UseTemplate(django.New()).Directory("./templates", ".html")
 
 	iris.Get("/", func(ctx *iris.Context) {
-		// THIS WORKS WITH ALL TEMPLATE ENGINES, but I am not doing the same example for all engines again :) (the same you can do with templates using the iris.ResponseString)
-		// 所有的模版引擎都可以工作，但我没有给所有的引擎做同样的示例 :)(你同样可以使用 iris.Response)
+		// THIS WORKS WITH ALL TEMPLATE ENGINES, but I am not doing the same example for all engines again :) (the same you can do with templates using the iris.SerializeToString)
+		// 所有的模版引擎都可以这样工作，但我没有给所有的引擎做同样的示例 :)(你可以使用 iris.SerializeToString 做相同的工作)
 		rawHtmlContents := iris.TemplateString("mypage.html", map[string]interface{}{"username": "iris", "is_admin": true}, iris.RenderOptions{"charset": "UTF-8"}) // defaults to UTF-8 already
 		ctx.Log(rawHtmlContents)
 		ctx.Write("The Raw HTML is:\n%s", rawHtmlContents)
@@ -1115,9 +1122,9 @@ func main() {
 
 ```
 
- > Note that: iris.TemplateString can be called outside of the context also 
+ > Note that: iris.TemplateString can be called outside of the context also
  >
- > 注意: iris.TemplateString 可以在外面调用
+ > 注意: iris.TemplateString 也可以在context之外外面调用
 
 
 
@@ -1128,5 +1135,5 @@ func main() {
  - examples are located [here](https://github.com/iris-contrib/examples/tree/master/template_engines/) 
  - 例子在 [这里](https://github.com/iris-contrib/examples/tree/master/template_engines/) 
 
-- You can contribute to create more template engines for Iris, click [here](https://github.com/iris-contrib/template) to navigate to the reository. 
-- 你可以为 Iris 创建更多模版引擎，点击［这里］调转到代码库。
+- You can contribute to create more template engines for Iris, click [here](https://github.com/kataras/go-template) to navigate to the repository.
+- 你可以为 Iris 创建更多模版引擎，点击 [这里](https://github.com/kataras/go-template) 跳转到代码库。

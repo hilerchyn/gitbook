@@ -1,17 +1,22 @@
-# TLS
+# 监听与伺服函数 / Listen & Serve functions
 
 ```go
+// Serve serves incoming connections from the given listener.
+// Serve 函数 伺服来自给定监听器的传入连接
+//
+// Serve blocks until the given listener returns permanent error.
+// Serve 函数会一直阻塞直至给定的监听器返回永久性错误
+Serve(ln net.Listener) error
+
 // Listen starts the standalone http server
 // Listen 启动独立的 HTTP 服务器
 // which listens to the addr parameter which as the form of
 // 以如下的地址参数形式开始监听
 // host:port
 //
-// It panics on error if you need a func to return an error, use the ListenTo
-// Listen 发生错误时会引发恐慌，如果你需要一个返回错误的 func 那么请使用 ListenTo
-// ex: err := iris.ListenTo(config.Server{ListeningAddr:":8080"})
-// 如: err := iris.ListenTo(config.Server{ListeningAddr:":8080"})
-Listen(addr string) 
+// It panics on error if you need a func to return an error, use the Serve
+// Listen 发生错误时会引发恐慌，如果你需要一个返回错误的 func 那么请使用 Serve 函数
+Listen(addr string)
 
 // ListenTLS Starts a https server with certificates,
 // ListenTLS 使用证书启动HTTPS服务器,
@@ -23,102 +28,105 @@ Listen(addr string)
 // 以如下的地址参数形式开始监听
 // host:port
 //
-// It panics on error if you need a func to return an error, use the ListenTo
-// ex: err := iris.ListenTo(config.Server{":8080","yourfile.cert","yourfile.key"})
-// 如: err := iris.ListenTo(config.Server{":8080","yourfile.cert","yourfile.key"})
-ListenTLS(addr string, certFile string, keyFile string)
+// It panics on error if you need a func to return an error, use the Serve
+// 发生错误时它会引发恐慌，如果你需要一个返回错误的 func 那么请使用 Serve 函数
+// ex: iris.ListenTLS(":8080","yourfile.cert","yourfile.key")
+ListenTLS(addr string, certFile, keyFile string)
 
-// ListenTLSAuto starts a server listening at the specific nat address
-// ListenTLSAuto 启动一个监听指定NAT地址的服务器
+// ListenLETSENCRYPT starts a server listening at the specific nat address
+// ListenLETSENCRYPT 启动一台监听指定NAT地址的服务器
 // using key & certification taken from the letsencrypt.org 's servers
-// 使用 letsencrypt.org 服务器的 key 和 certification
-// it also starts a second 'http' server to redirect all 'http://$ADDR_HOSTNAME:80' to the' https://$ADDR'
-// 同时启动另一台 'http'服务器，用来将 'http://$ADDR_HOSTNAME:80' 的所有请求重置到 'https://$ADDR'
-//
-// Notes:
-// 注意:
-// if you don't want the last feature you should use this method:
-// 如果你不想用最新的特性，应该使用下面的方法：
-// iris.ListenTo(config.Server{ListeningAddr: "mydomain.com:443", AutoTLS: true})
-// it's a blocking function
-// 它是个阻塞函数
-// Limit : https://github.com/iris-contrib/letsencrypt/blob/master/lets.go#L142
-// 限制 : https://github.com/iris-contrib/letsencrypt/blob/master/lets.go#L142
-//
+// 使用取自 letsencrypt.org 服务器的 键 和 证书
+// it's also starts a second 'http' server to redirect all 'http://$ADDR_HOSTNAME:80' to the' https://$ADDR'
+// 它同时也启动了另一台 'http' 服务器用于将所有 'http://$ADDR_HOSTNAME:80' 连接跳转到 'https://$ADDR'
 // example: https://github.com/iris-contrib/examples/blob/master/letsencyrpt/main.go
 // 示例: https://github.com/iris-contrib/examples/blob/master/letsencyrpt/main.go
-ListenTLSAuto(addr string)
+ListenLETSENCRYPT(addr string)
 
 // ListenUNIX starts the process of listening to the new requests using a 'socket file', this works only on unix
 // ListenUNIX 用来启动监听 'socket file' 请求的进程，只在 unix 上工作
 //
-// It panics on error if you need a func to return an error, use the ListenTo
-// 此函数发生错误时会引发恐慌，如果你需要返回错误的函数，请使用 ListenTo
-// ex: err := iris.ListenTo(config.Server{":8080", Mode: os.FileMode})
-// 如: err := iris.ListenTo(config.Server{":8080", Mode: os.FileMode})
+// It panics on error if you need a func to return an error, use the Serve
+// 此函数发生错误时会引发恐慌，如果你需要返回错误的函数，请使用 Serve 函数
+// ex: iris.ListenUNIX(":8080", Mode: os.FileMode)
 ListenUNIX(addr string, mode os.FileMode)
-
-// ListenVirtual is useful only when you want to test Iris, it doesn't starts the server but it configures and returns it
-// ListenVirtual 只有当你想测试 Iris 时才有用，它不启动服务器只是配置并返回服务器
-// initializes the whole framework but server doesn't listens to a specific net.Listener
-// 初始化整个框架，而服务器不坚定任何指定的 net.Listener
-// it is not blocking the app
-// 它不是阻塞应用
-ListenVirtual(optionalAddr ...string) *Server
-
-// ListenTo listens to a server but accepts the full server's configuration
-// ListenTo 启动监听服务器，且接受所有服务器配置
-// returns an error, you're responsible to handle that
-// 返回错误，由你负责处理
-// or use the iris.Must(iris.ListenTo(config.Server{}))
-// 或使用 iris.Must(iris.ListenTo(config.Server{})) 来处理
-//
-// it's a blocking func
-// 它是个阻塞函数
-ListenTo(cfg config.Server) (err error) 
 
 // Close terminates all the registered servers and returns an error if any
 // 任何 Close 函数终止所有注册的服务器并返回错误
 // if you want to panic on this error use the iris.Must(iris.Close())
 // 如果你想要这个错误引发恐慌，请使用 iris.Must(iris.Close())
-Close() error 
+Close() error
 
+
+// Reserve re-starts the server using the last .Serve's listener
+// Reserve 函数使用最后一个 .Serve 函数调用的监听器重启服务器
+Reserve() error
+
+// IsRunning returns true if server is running
+// IsRunning 函数 如果服务器正在运行就返回 true
+IsRunning() bool
 ```
 
-**上面代码中的ListenTo示例有错误，遗漏了 config.Server。typo: acceots -> accepts**
 
 ```go
+// Serve
+ln, err := net.Listen("tcp4", ":8080")
+if err := iris.Serve(ln); err != nil {
+   panic(err)
+}
+// same as api := iris.New(); api.Serve(ln), iris. contains a default iris instance, this exists for
+// api := iris.New(); api.Serve(ln) 与上面的用法相同, iris. 含有一个默认的 iris 实例,
+// any function or field you will see at the rest of the gitbook.
+// 它是为任意函数和字段而存在的，你会在此文档的剩余内容中看到。
+
+// Listen
 iris.Listen(":8080")
-err := iris.ListenTo(config.Server{ListeningAddr: ":8080"})
-```
-```go
-iris.ListenTLS(":8080", "myCERTfile.cert", "myKEYfile.key")
-err := iris.ListenTo(config.Server{ListeningAddr: ":8080", CertFile: "myCERTfile.cert", KeyFile: "myKEYfile.key"})
+
+// ListenTLS
+iris.ListenTLS(":8080", "./ssl/mycert.cert", "./ssl/mykey.key")
+
+// and so on...
+// 和其它...
 ```
 
 ```go
 // Package main provide one-line integration with letsencrypt.org
-// main 包单行整合了 letsencrypt.org
+// main包中提供了单行整合 letsencrypt.org 的示例
 package main
 
 import "github.com/kataras/iris"
 
 func main() {
-	iris.Get("/", func(ctx *iris.Context) {
-		ctx.Write("Hello from SECURE SERVER!")
-	})
+    iris.Get("/", func(ctx *iris.Context) {
+        ctx.Write("Hello from SECURE SERVER!")
+    })
 
-	iris.Get("/test2", func(ctx *iris.Context) {
-		ctx.Write("Welcome to secure server from /test2!")
-	})
+    iris.Get("/test2", func(ctx *iris.Context) {
+        ctx.Write("Welcome to secure server from /test2!")
+    })
 
-	// This will provide you automatic certification & key from letsencrypt.org's servers
-	// 这将自动提供给你来自 letsencrypt.org 服务器的 certification & key 
-	// it also starts a second 'http://' server which will redirect all 'http://$PATH' requests to 'https://$PATH'
-	// 它启动另一台 'http://' 服务器 用来将 'http://$PATH' 的所有请求重新指向为 'https://$PATH'
-	iris.ListenTLSAuto("127.0.0.1:443")
+    // This will provide you automatic certification & key from letsencrypt.org's servers
+    // it also starts a second 'http://' server which will redirect all 'http://$PATH' 
+    // requests to 'https://$PATH'
+    iris.ListenLETSENCRYPT("127.0.0.1:443")
 }
-
-
 ```
+
+Examples:
+
+示例:
+
+* [Listen using a custom fasthttp server](https://github.com/iris-contrib/examples/tree/master/custom_fasthttp_server)
+* [Listen 使用自定义的 fasthttp 服务器](https://github.com/iris-contrib/examples/tree/master/custom_fasthttp_server)
+* [Serve content using a custom router](https://github.com/iris-contrib/examples/tree/master/custom_fasthttp_router)
+* [Serve 内容使用自定义路由器](https://github.com/iris-contrib/examples/tree/master/custom_fasthttp_router)
+* [Listen using a custom net.Listener](https://github.com/iris-contrib/examples/tree/master/custom_net_listener)
+* [Listen 使用自定义的 net.Listener](https://github.com/iris-contrib/examples/tree/master/custom_net_listener)
+* [Redirect all http://$HOST to https://$HOST using a custom net.Listener](https://github.com/iris-contrib/examples/tree/master/listentls)
+* [使用自定义的 net.Listener 将所有 http://$HOST  重定向到 https://$HOST](https://github.com/iris-contrib/examples/tree/master/listentls)
+* [Listen using automatic ssl](https://github.com/iris-contrib/examples/tree/master/letsencrypt)
+* [Listen 自动使用 ssl](https://github.com/iris-contrib/examples/tree/master/letsencrypt)
+
+
+
 

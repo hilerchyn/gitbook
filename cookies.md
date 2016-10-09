@@ -13,7 +13,7 @@ SetCookie(cookie *fasthttp.Cookie)
 // SetCookieKV 添加一个cookie, 只接收 key(string) 和 value(string)
 SetCookieKV(key, value string)
 
-// GetCookie returns cookie's value by it's name
+// GetCookie returns the cookie's value by it's name
 // GetCookie 通过名称返回cookie的值
 // returns empty string if nothing was found
 // 如果没有找到的话返回空字符串
@@ -27,17 +27,16 @@ RemoveCookie(name string)
 // VisitAllCookies takes a visitor which loops on each (request's) cookie key and value
 // VisitAllCookies 使用一个访问器循环每个请求的 cookie 的 key 和 value
 //
-// Note: the method ctx.Request.Header.VisitAllCookie by fasthttp, has a strange bug which I cannot solve at the moment.
+// Note: the method ctx.Request.Header.VisitAllCookie (by fasthttp) has a strange bug, which I cannot solve at the moment.
 // 注意: ctx.Request.Header.VisitAllCookie 方法来自 fasthttp, 现在有一个我无法解决的奇怪bug。
-// This is the reason which this function exists and should be used instead of fasthttp's built'n.
+// This is the reason why this function exists and should be used instead of fasthttp's built in function.
 // 这就是为什么这个函数存在的原因，应该用它替代 fasthttp 内建的函数
 VisitAllCookies(visitor func(key string, value string))
 
 ```
-How to use 
+How to use:
 
 如何使用
-
 ```go
 
 iris.Get("/set", func(c *iris.Context){

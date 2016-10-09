@@ -2,23 +2,21 @@
 
 HandlerAPI is any custom struct which has an `*iris.Context` field and known methods signatures.
 
-处理器 API 是任何有一个 `*iris.Context` 字段和已知方法签名的自定义结构体。
+处理器API 是任意有一个 `*iris.Context` 字段和已知方法(指 POST/GET/PUT/UPDATE.. 等 HTTP 方法)签名的自定义结构体。
 
-
-
-Before continue I will liked to notice you that this method is slower than `iris.Get, Post..., Handle, HandleFunc`.
+Before continuing I'd like you to note that this method is slower than `iris.Get, Post..., Handle, HandleFunc`.
 
 在继续之前我得提醒你一下，这个方法比 `iris.Get, Post..., Handle, HandleFunc` 慢。
 
+It might sound awful, I'm not using it myself, I did it because there developers used to frameworks 
+with the 'MVC' pattern, so think of it like the 'Controller'. 
+If you don't care about routing performance(~ms) and you like to spend some code time, you're free to use it.
 
-I know maybe sounds awful but I, my self not using it, I did it because developers used to use frameworks with the 'MVC' pattern, so think it like the 'C\|Controller'. If you don't care about routing performance\(~ms\) and you like to spent some code time, you're free to use it.
+它也许听起来很棒，但我自己不用它，我实现它是因为很多开发人员曾经使用 'MVC' 模式框架，所以认为它更像 'Controller' 层。如果你不关心路由性能\(~ms\)， 而且你愿意耗费一些代码执行时间，你可以随意使用它。
 
-我知道它也许听起来很棒，但是我自己不用它，我实现它是因为开发人员曾经以 'MVC' 模式使用框架，所有我想它更像 'C | Controller' 层。如果你不关心路由性能\(~ms\)， 而且你愿意耗费一些代码执行时间，你可以随意使用它。
+Instead of writing Handlers/HandlerFuncs for each API routes, you can use the `iris.API` function.
 
-
-Instead of writing Handlers\/HandlerFuncs for eachone API routes, you can use the `iris.API` function.
-
-你可以使用 `iris.API` 函数，替代为每个 API 路由而写的 Handlers\/HandlerFuncs 。
+你可以使用 `iris.API` 函数，替代为每个 API 路由写一个 Handlers\/HandlerFuncs。
 
 ```go
 API(path string, api HandlerAPI, middleware ...HandlerFunc) error
@@ -69,15 +67,14 @@ type UserAPI struct {
 // GET /users
 func (u UserAPI) Get() {
     u.Write("Get from /users")
-    // u.JSON(iris.StatusOK,myDb.AllUsers())
+    // u.JSON(iris.StatusOK, myDb.AllUsers())
 }
 
-// GET /:param1 which its value passed to the id argument
-// GET /:param1 它的值传递给了 id
-func (u UserAPI) GetBy(id string) { // id equals to u.Param("param1") / id 等于 u.Param("param1")
+// GET /:param1 param1's value is the 'id' param
+// GET /:param1 param1 的值是 'id' 参数
+func (u UserAPI) GetBy(id string) { // id equals to u.Param("param1") // id 等于 u.Param("param1")
     u.Write("Get from /users/%s", id)
     // u.JSON(iris.StatusOK, myDb.GetUserById(id))
-
 }
 
 // PUT /users
@@ -106,7 +103,6 @@ func main() {
     iris.API("/users", UserAPI{})
     iris.Listen(":8080")
 }
-
 ```
 
 As you saw you can still get other request values via the \*iris.Context, API has all the  flexibility of handler\/handlerfunc.
@@ -144,6 +140,6 @@ func myUsersMiddleware2(ctx *iris.Context) {
 
 ```
 
-Available methods: "GET", "POST", "PUT", "DELETE", "CONNECT", "HEAD", "PATCH", "OPTIONS", "TRACE" should use this **naming conversion**:  **Get\/GetBy, Post\/PostBy, Put\/PutBy** and so on...
+Available methods: "GET", "POST", "PUT", "DELETE", "CONNECT", "HEAD", "PATCH", "OPTIONS", "TRACE" should use this **naming convention**:  **Get/GetBy, Post/PostBy, Put/PutBy** and so on...
 
 可用的方法："GET", "POST", "PUT", "DELETE", "CONNECT", "HEAD", "PATCH", "OPTIONS", "TRACE" 应该使用这样的 **命名转换**: **Get\GetBy, Post/PostBy, Put/PutBy** 等...

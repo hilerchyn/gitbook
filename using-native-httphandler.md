@@ -1,6 +1,6 @@
 # 使用原生 http.Handler / Using native http.Handler
 
-> Not recommended and I will not help you if any issue comes up, it is just there for your first conversional steps.
+> Not recommended and I will not help you if any issue comes up, it is just there for your first conversion steps.
 > Note also that using native http handler you cannot access url params.
 
 > 不推荐使用，如果出现任何问题我不会帮你，它只是为你第一次转变而存在的。

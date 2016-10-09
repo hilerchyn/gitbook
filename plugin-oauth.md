@@ -5,9 +5,9 @@ This is a [plugin](https://github.com/iris-contrib/plugin/tree/master/oauth).
 
 这是一个 [插件](https://github.com/iris-contrib/plugin/tree/master/oauth)。
 
-This plugin helps you to be able to connect your clients using famous websites login APIs, it is a bridge to the [goth](https://github.com/markbates/goth).
+This plugin enables you to connect your clients using famous websites login APIs, it is a bridge to the [goth](https://github.com/markbates/goth) library.
 
-这个插件能够帮助你使用著名网站的登录API连接你的客户，它是连接 [goth](https://github.com/markbates/goth) 的桥梁。
+这个插件能够帮助你使用著名网站的登录API连接你的客户，它是连接 [goth](https://github.com/markbates/goth) 库的桥梁。
 
 ## 支持的网站 / Supported Providers
 
@@ -47,19 +47,19 @@ This plugin helps you to be able to connect your clients using famous websites l
 
 
 ```go
-    configs := oauth.Config{
-      Path: "/auth", //defaults to /auth /默认路径 /auth
+	configs := oauth.Config{
+		Path: "/auth", // defaults to /auth
 
-      GithubKey:    "YOUR_GITHUB_KEY",
-      GithubSecret: "YOUR_GITHUB_SECRET",
-      GithubName:   "github", // defaults to github / 默认 github
+		GithubKey:    "YOUR_GITHUB_KEY",
+		GithubSecret: "YOUR_GITHUB_SECRET",
+		GithubName:   "github", // defaults to github
 
-      FacebookKey:    "YOUR_FACEBOOK_KEY",
-      FacebookSecret: "YOUR_FACEBOOK_KEY",
-      FacebookName:   "facebook", // defaults to facebook / 默认是 facebook
-      //and so on... enable as many as you want
-      // 等等... 只要你想要
-    }
+		FacebookKey:    "YOUR_FACEBOOK_KEY",
+		FacebookSecret: "YOUR_FACEBOOK_KEY",
+		FacebookName:   "facebook", // defaults to facebook
+		// and so on... enable as many as you want
+		// 等等... 你可以开启更多
+	}
 
 	// create the plugin with our configs
 	// 使用自己的配置创建插件
@@ -68,16 +68,16 @@ This plugin helps you to be able to connect your clients using famous websites l
 	// 将插件注册到 iris
 	iris.Plugins.Add(authentication)
 
-    // came from yourhost:port/configs.Path/theprovidername
-    // 来自 yourhost:port/configs.Path/theprovidername
-    // this is the handler inside yourhost:port/configs.Path/theprovidername/callback
-    // 这是 yourhost:port/configs.Path/theprovidername/callback 内部的处理器
-    // you can do redirect to the authenticated url or whatever you want to do
-    // 你可以重定向到身份认证的url 或 任何你想要做的
+	// came from yourhost:port/configs.Path/theprovidername
+	// 来自 yourhost:port/configs.Path/theprovidername
+	// this is the handler inside yourhost:port/configs.Path/theprovidername/callback
+	// 这是 yourhost:port/configs.Path/theprovidername/callback 内部的处理器
+	// you can do redirect to the authenticated url or whatever you want to do
+	// 你可以重定向到身份认证的url 或 任何你想要做的
 	authentication.Success(func(ctx *iris.Context) {
-		user := authentication.User(ctx) // returns the goth.User / 返回 goth.User
-    })
-    authentication.Fail(func(ctx *iris.Context){})
+		user := authentication.User(ctx) // returns the goth.User
+	})
+	authentication.Fail(func(ctx *iris.Context){})
 
 ```
 
@@ -97,8 +97,10 @@ import (
 	"github.com/kataras/iris"
 )
 
-// register your auth via configs, providers with non-empty values will be registered to goth automatically by Iris
-// 通过 configs 变量 注册你自己的 auth 路径，非空值的供应者将被 Iris 自动注册到 goth
+// register your auth via configs, providers with non-empty 
+// 通过配置注册自己的认证路径，
+// values will be registered to goth automatically by Iris
+// 提供非空值Iris将自动将其注册到goth
 var configs = oauth.Config{
 	Path: "/auth", //defaults to /oauth 默认 /auth
 
@@ -139,12 +141,14 @@ func main() {
 
 	providerIndex := &ProviderIndex{Providers: keys, ProvidersMap: m}
 
-	// set a  login success handler( you can use more than one handler)
-	// 设置登录成功处理器 (你可以不只使用一个处理器)
-	// if user succeed to logged in
+	// set a login success handler (you can use more than one handler)
+	// 设置登录成功处理器 (你可以使用多个处理器)
+	// if the user succeed to logged in
 	// 如果用户登录成功
-	// client comes here from: localhost:3000/config.RouteName/lowercase_provider_name/callback 's first handler, but the  previous url is the localhost:3000/config.RouteName/lowercase_provider_name
-	// 客户端来自: localhost:3000/config.RouteName/lowercase_provider_name/callback 的第一个处理器，而其先前的 url  是 localhost:3000/config.RouteName/lowercase_provider_name
+	// client comes here from: localhost:3000/config.RouteName/lowercase_provider_name/callback 's first handler,
+	// 客户端来自: localhost:3000/config.RouteName/lowercase_provider_name/callback 的第一个处理器， 
+	// but the previous url is the localhost:3000/config.RouteName/lowercase_provider_name
+	// 而其先前的 url  是 localhost:3000/config.RouteName/lowercase_provider_name
 	authentication.Success(func(ctx *iris.Context) {
 		// if user couldn't validate then server sends StatusUnauthorized, which you can handle by:  authentication.Fail OR iris.OnError(iris.StatusUnauthorized, func(ctx *iris.Context){})
 		// 如果用户验证没有通过，那么服务器会发送 StatusUnauthorized，你可以通过一下方式来处理：authentication.Fail OR iris.OnError(iris.StatusUnauthorized, func(ctx *iris.Context){})
@@ -196,7 +200,7 @@ View:
 
 ## 如何使用 - 简单 ／ How to use - low level
 
-Low-level is just the [iris-contrib/gothic](https://github.com/iris-contrib/gothic) which is like the original [goth](https://github.com/markbates/goth) but converted to work with Iris.
+Low-level is just [iris-contrib/gothic](https://github.com/iris-contrib/gothic) which is like the original [goth](https://github.com/markbates/goth) but converted to work with Iris.
 
 简单的方式就是使用 [iris-contrib/gothic](https://github.com/iris-contrib/gothic) 就像原始的 [goth](https://github.com/markbates/goth)，只是转换成与 Iris 一同使用。
 
