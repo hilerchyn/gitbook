@@ -3,15 +3,17 @@ If you notice a bug or issue [post it here](https://github.com/kataras/go-sessio
 
 如果你发现错误或问题[在这里提出](https://github.com/kataras/go-sessions).
 
+
 - Cleans the temp memory when a session is idle, and re-allocates it to the temp memory when it's necessary. 
 The most used sessions are optimized to be in the front of the memory's list.
 
 - 当回话空闲时清除临时内存，当需要时将它重新分配为临时内存。
 使用的最多的回话都被优化且放置在内存列表的前端。
 
-- Supports any type of database, currently only [Redis](https://github.com/kataras/go-sessions/sessiondb/).
+- Supports any type of database, currently only [Redis](https://github.com/kataras/go-sessions/tree/master/sessiondb/redis) and [LevelDB](https://github.com/kataras/go-sessions/tree/master/sessiondb/leveldb).
 
-- 支持任意类型的数据库，当前只有[Redis](https://github.com/kataras/go-sessions/sessiondb/)。
+- 支持任意类型的数据库，当前只有[Redis](https://github.com/kataras/go-sessions/sessiondb/redis) 和 [LevelDB](https://github.com/kataras/go-sessions/tree/master/sessiondb/leveldb)。
+
 
 **A session can be defined as a server-side storage of information that is desired to persist throughout the user's interaction with the web application**.
 
@@ -144,9 +146,9 @@ func main() {
 
 ```
 
-Example with **Redis session database**, which is located [here]
+Example with **Redis session database**, which is located [here](https://github.com/kataras/go-sessions/tree/master/sessiondb/redis).
 
-**redis 会话数据库** 示例在 [这里](https://github.com/kataras/go-sessions/tree/master/sessiondb/redis).
+**Redis 会话数据库** 示例在 [这里](https://github.com/kataras/go-sessions/tree/master/sessiondb/redis).
 
 ```go
 package main

@@ -1,8 +1,8 @@
 # 版本 Versioning
 
-Current: **v4.4.0**
+Current: **v4.4.8**
 
-当前版本: **v4.4.0**
+当前版本: **v4.4.8**
 
 Read more about Semantic Versioning 2.0.0
 阅读更多关于 版本语义 2.0.0 的内容

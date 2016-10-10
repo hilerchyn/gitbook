@@ -163,16 +163,10 @@ The supported field types in the destination struct are:
 * a `pointer` to one of the above types / 上面任一类型的指针
 
 
-#### 自定义序列化 ／ Custom Marshaling
-
-
-It's possible to unmarshal data and the key of a map by using the `encoding.TextUnmarshaler` interface.
-
-通过 `encoding.TextUnmarshaler` 接口可以反序列化map的数据和key
 
 ----
 
-#### 示例 / Example
+#### 示例表单 / Example form
 
 ```go
  //./main.go
@@ -238,8 +232,6 @@ func main() {
 
 ```
 
-
-#### 示例 / Example
 
 
 
@@ -325,3 +317,42 @@ func main() {
   iris.Listen(":8080")
 }
 ```
+
+### Custom Decoder per Object
+
+### 给每个对象自定义解析器
+
+`BodyDecoder` gives the ability to set a custom decoder **per passed object** when `context.ReadJSON` and `context.ReadXML` 
+
+`BodyDecoder` 给了我们在使用 `context.ReadJSON` 和 `context.ReadXML` 时给 **每个传递的对象** 设置自定义解析器的能力。
+
+```go
+// BodyDecoder is an interface which any struct can implement in order to customize the decode action
+// from ReadJSON and ReadXML
+// BodyDecoder 是一个实现了来自 ReadJSON 和 ReadXML 的解析动作接口的任意结构体
+//
+// Trivial example of this could be:
+// 简单的例子可以这样：
+// type User struct { Username string }
+//
+// func (u *User) Decode(data []byte) error {
+//	  return json.Unmarshal(data, u)
+// }
+//
+// the 'context.ReadJSON/ReadXML(&User{})' will call the User's
+// Decode option to decode the request body
+// 'context.ReadJSON/ReadXML(&User{})' 将调用用户的解析选项解析请求体
+//
+// Note: This is totally optionally, the default decoders
+// 注意：这完全是可选项，默认解析器有
+// for ReadJSON is the encoding/json and for ReadXML is the encoding/xml
+// ReadJSON 的 encoding/json 和 ReadXML 的 encoding/xml
+type BodyDecoder interface {
+	Decode(data []byte) error
+}
+
+```
+
+> for a usage example go to https://github.com/kataras/iris/blob/master/context_test.go#L262
+>
+> 在 https://github.com/kataras/iris/blob/master/context_test.go#L262 文件中可以查看更多使用示例

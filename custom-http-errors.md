@@ -15,12 +15,14 @@ func main() {
 
 	iris.OnError(iris.StatusInternalServerError, func(ctx *iris.Context) {
         ctx.Write("CUSTOM 500 INTERNAL SERVER ERROR PAGE")
-		iris.Logger.Printf("http status: 500 happened!")
+		// or ctx.Render, ctx.HTML any render method you want
+		// 或者 ctx.Render、 ctx.HTML 任意你想要使用的渲染器方法
+		ctx.Log("http status: 500 happened!")
 	})
 
 	iris.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
 		ctx.Write("CUSTOM 404 NOT FOUND ERROR PAGE")
-		iris.Logger.Printf("http status: 404 happened!")
+		ctx.Log("http status: 404 happened!")
 	})
 
 	// emit the errors to test them
@@ -33,7 +35,6 @@ func main() {
 		ctx.EmitError(iris.StatusNotFound) // ctx.NotFound()
 	})
 
-	println("Server is running at: 80")
 	iris.Listen(":80")
 
 }

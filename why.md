@@ -46,6 +46,12 @@ The same day, later the night, I was reading a book about Greek mythology. I saw
 
  I'm still here [because Iris has succeed in being the fastest go web framework](https://github.com/kataras/iris#benchmarks)
 
+![](comment29.png)
+
+![](comment26.png)
+
+![](comment25.png)
+
 ![](comment1.png)
 ![](comment2.png)
 ![](comment3.png)
@@ -73,3 +79,5 @@ The same day, later the night, I was reading a book about Greek mythology. I saw
 ![](comment24.png)
 
 ![](comment23.png)
+
+![](comment27.png)
