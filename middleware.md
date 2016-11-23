@@ -45,7 +45,7 @@ type myMiddleware struct {
   // 这儿是你的 'stateless' 字段
 }
 
-func (m *myMiddleware) Serve(ctx *iris.Context){
+func (m myMiddleware) Serve(ctx *iris.Context){
   // ...
 }
 
@@ -73,7 +73,7 @@ Handler 中间件示例:
 
 type myMiddleware struct {}
 
-func (m *myMiddleware) Serve(c *iris.Context){
+func (m myMiddleware) Serve(c *iris.Context){
     shouldContinueToTheNextHandler := true
 
     if shouldContinueToTheNextHandler {

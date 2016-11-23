@@ -1,12 +1,11 @@
 # Context
 
+The context source code can be found [here](https://github.com/kataras/iris/blob/master/context.go). Keep note that many context's functions are not written here, use IDE/Editors with `auto-complete` feature.
+
+可以在[这里](https://github.com/kataras/iris/blob/master/context.go)找到context的源码。注意许多context的函数在这里并没有写出来，请使用 IDE/Editors 的 `auto-complete` 特性。
+
 ```go
-	IContext interface {
-       // it contains all fasthttp's RequestCtx's functions
-       // 它包含了 fasthttp 的 RequestCtx 的所有函数
-       *fasthttp.RequestCtx
-       // These are the iris' specific 
-       // 这些函数是 iris 特定的
+        *fasthttp.RequestCtx
 		Param(string) string
 		ParamInt(string) (int, error)
 		ParamInt64(string) (int64, error)

@@ -38,7 +38,7 @@ ListenTLS(addr string, certFile, keyFile string)
 // using key & certification taken from the letsencrypt.org 's servers
 // 使用取自 letsencrypt.org 服务器的 键 和 证书
 // it's also starts a second 'http' server to redirect all 'http://$ADDR_HOSTNAME:80' to the' https://$ADDR'
-// 它同时也启动了另一台 'http' 服务器用于将所有 'http://$ADDR_HOSTNAME:80' 连接跳转到 'https://$ADDR'
+// 它同时也启动了第二个 'http' 服务器用于将所有 'http://$ADDR_HOSTNAME:80' 连接跳转到 'https://$ADDR'
 // example: https://github.com/iris-contrib/examples/blob/master/letsencyrpt/main.go
 // 示例: https://github.com/iris-contrib/examples/blob/master/letsencyrpt/main.go
 ListenLETSENCRYPT(addr string)
@@ -106,7 +106,7 @@ func main() {
     })
 
     // This will provide you automatic certification & key from letsencrypt.org's servers
-    // it also starts a second 'http://' server which will redirect all 'http://$PATH' 
+    // it also starts a second 'http://' server which will redirect all 'http://$PATH'
     // requests to 'https://$PATH'
     iris.ListenLETSENCRYPT("127.0.0.1:443")
 }

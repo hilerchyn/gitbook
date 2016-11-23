@@ -23,7 +23,7 @@ Websocket 协议使得浏览器和站点之间可能很多交互， **来自或�
 ## 配置 / Configuration
 
 ```go
-type Websocket struct {
+type WebsocketConfiguration struct {
 	// WriteTimeout time allowed to write a message to the connection
 	// WriteTimeout 允许将消息写入连接的时间
 	// Default value is 15 * time.Second
@@ -51,22 +51,40 @@ type Websocket struct {
 	// defaults to false
 	// 默认为 false
 	BinaryMessages bool
-	// Endpoint is the path at which the websocket server will listen for clients/connections
+	// Endpoint is the path which the websocket server will listen for clients/connections
 	// Endpoint websocket服务器监听客户端/连接的路径
-	// Default value is an empty string, if you don't set it, the Websocket server gets disabled.
+	// Default value is empty string, if you don't set it the Websocket server is disabled.
 	// 默认值为空字符串，如果你不设置的话，Websocket服务器将被禁用。
 	Endpoint string
-	// Headers the response headers before the upgrade
-	// Headers upgrade 之前的应答头信息
-	// Default is empty
-	// 默认为 空
-	Headers map[string]string
 	// ReadBufferSize is the buffer size for the underline reader
 	// ReadBufferSize 是后台读取器的缓存大小
 	ReadBufferSize int
 	// WriteBufferSize is the buffer size for the underline writer
 	// WriteBufferSize 是后台写入器的缓存大小
 	WriteBufferSize int
+	// Headers  if true then the client's headers are copy to the websocket connection
+	// Headers 如果为 true 那么客户端的头信息将被拷贝到websocket连接
+	//
+	// Default is true
+	// 默认为 true
+	Headers bool
+	// Error specifies the function for generating HTTP error responses.
+	// Error 指定生成HTTP错误应答的函数
+	//
+	// The default behavior is to store the reason in the context (ctx.Set(reason)) and fire any custom error (ctx.EmitError(status))
+	// 默认行为是用来在上下文(cts.Set(reason))中存储原因和发送任何自定义错误(ctx.EmitError(status))
+	Error func(ctx *Context, status int, reason string)
+	// CheckOrigin returns true if the request Origin header is acceptable. If
+	// CheckOrigin 如果Origin头可接受那么返回true.
+	// CheckOrigin is nil, the host in the Origin header must not be set or
+	// must match the host of the request.
+	// 如果 CheckOrigin 为 nil， 那么Origin头中的主机host要么不设置要么必需与请求的host信息匹配。
+	//
+	// The default behavior is to allow all origins
+	// 默认行为允许所有的源
+	// you can change this behavior by setting the iris.Config.Websocket.CheckOrigin = iris.WebsocketCheckSameOrigin
+	// 你可以通过设置 iris.Config.Websocket.CheckOrigin = iris.WebsocketCheckSameOrigin 来改变这个行为
+	CheckOrigin func(ctx *Context) bool
 }
 
 ```
@@ -74,7 +92,7 @@ type Websocket struct {
 ```go
 iris.Config.Websocket.Endpoint = "/myEndpoint"
 // or
-iris.Set(iris.OptionWebsocketEndpoint("/myEndpoint")
+iris.Set(iris.OptionWebsocketEndpoint("/myEndpoint"))
 // or 
 iris.New(iris.Configuration{Websocket: iris.WebsocketConfiguration{Endpoint: "/myEndpoint"}})
 ```

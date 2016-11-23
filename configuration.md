@@ -213,25 +213,6 @@ OptionWebsocketReadBufferSize(val int)
 // OptionWebsocketWriteBufferSize is the buffer size for the underline writer
 // OptionWebsocketWriteBufferSize 后端写入器的缓存尺寸
 OptionWebsocketWriteBufferSize(val int)
-
-// OptionTesterListeningAddr is the virtual server's listening addr (host)
-// OptionTesterListeningAddr 虚拟服务器的监听地址（host)
-// Default is "iris-go.com:1993"
-// 默认为 "iris-go.cn:1993"
-OptionTesterListeningAddr(val string)
-
-// OptionTesterExplicitURL If true then the url (should) be prepended manually, useful when want to test subdomains
-// OptionTesterExplicitURL 如果为true那么url会被手动前置追加，当你测试子域名时很有用
-// Default is false
-// 默认为 false
-OptionTesterExplicitURL(val bool)
-
-// OptionTesterDebug if true then debug messages from the httpexpect will be shown when a test runs
-// OptionTesterDebug 如果设置为true那么在测试运行时来自httpexpect的debug消息会被显示出来
-// Default is false
-// 默认为 false
-OptionTesterDebug(val bool)
-
 ```go
 
 
@@ -509,11 +490,6 @@ type Configuration struct {
 	// Websocket 包含Websocket服务器集成的配置
 	Websocket WebsocketConfiguration
 
-	// Tester contains the configs for the test framework, so far we have only one because all test framework's configs are setted by the iris itself
-	// Tester 含有测试框架的配置，迄今为止我们只有这一个配置，因为所有的测试框架参数都由iris自己设定
-	// 你可以在 https://github.com/kataras/iris/glob/master/context_test.go 中找到示例
-	Tester TesterConfiguration
-
 	// Other are the custom, dynamic options, can be empty
 	// Other 是动态、自定义的选项，可以为空
 	// this fill used only by you to set any app's options you want
@@ -524,6 +500,6 @@ type Configuration struct {
 }
 ```
 
-View all configuration fields and options by navigating to the [kataras/iris/configuration.go source file](https://github.com/kataras/iris/blob/master/configuration.go)
+View all configuration fields and options by navigating to the [kataras/iris/configuration.go source file](https://github.com/kataras/iris/blob/master/configuration.go), to view the testing configuration move [here](https://github.com/kataras/iris/blob/master/httptest/httptest.go)
 
-在 [kataras/iris/configuration.go 源文件](https://github.com/kataras/iris/blob/master/configuration.go) 中可以查看所有选项和字段
+在 [kataras/iris/configuration.go 源文件](https://github.com/kataras/iris/blob/master/configuration.go) 中可以查看所有选项和字段，测试配置查看[这里](https://github.com/kataras/iris/blob/master/httptest/httptest.go)

@@ -1,6 +1,6 @@
 # 版本 Versioning
 
-Current: **v4.4.8**
+Current: **v4.6.0**
 
 当前版本: **v4.4.8**
 
