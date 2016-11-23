@@ -1,5 +1,5 @@
 # HTTP 访问控制 / HTTP access control
-[This is a middleware](https://github.com/kataras/iris/tree/master/middleware/cors).
+[This is a middleware](https://github.com/iris-contrib/middleware/tree/master/cors).
 
 [这是一个中间件](https://github.com/kataras/iris/tree/master/middleware/cors).
 

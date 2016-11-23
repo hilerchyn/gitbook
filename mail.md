@@ -1,6 +1,6 @@
 # 发送电子邮件 / Send e-mails
 
-This is a [package](https://github.com/iris-contrib/mail).
+This is a [package](https://github.com/kataras/go-mailer).
 
 这是一个工具[包](https://github.com/iris-contrib/mail).
 
@@ -47,6 +47,10 @@ type Config struct {
 Send(subject string, body string, to ...string) error
 ```
 
+**Installation**
+
+```sh go get -u github.com/kataras/go-mailer ```
+
 **Example**
 **示例**
 
@@ -56,7 +60,7 @@ File: `./main.go`
 package main
 
 import (
-    "github.com/iris-contrib/mail"
+    "github.com/kataras/go-mailer"
     "github.com/kataras/iris"
 )
 

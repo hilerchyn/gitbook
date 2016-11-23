@@ -1,5 +1,10 @@
 <!--a href ="https://github.com/kataras/iris"> <img src="http://iris-go.com/assets/book/cover_4.jpg" width="300" /> </a-->
 
+
+> NOTE: If you want to view the docs for the most recent stable version, [v4 LTS](https://github.com/kataras/iris/tree/4.0.0), click [here](https://www.gitbook.com/book/kataras/iris-v4) instead
+
+> 注意: 如果你想要查看最新稳定版的文档，[v4 LTS](https://github.com/kataras/iris/tree/4.0.0), 点击[这里](https://www.gitbook.com/book/kataras/iris-v4)
+
 ## 内容目录
 
 * [介绍](README.md)
@@ -7,7 +12,7 @@
 * [特性](features.md)
 * [版本规则](versioning.md)
 * [安装](install.md)
-* [嘿(Hi)](hi.md)
+* [Hi](hi.md)
 * [监听与伺服](tls.md)
 * [处理器 Handlers](handlers.md)
    * [使用处理器 Handlers](using-handlers.md)
@@ -24,8 +29,8 @@
 * [发送文件](send-files.md)
 * [发送邮件](mail.md)
 * [渲染器 Render](render.md)
-   * [序列化引擎 Serialize Engines](serialize-engines.md)
-   * [模版引擎 Template Engines](template-engines.md)
+   * [序列化引擎 Serialize Engines](/serialize-engines.md)
+   * [模版引擎 Template Engines](/template-engines.md)
 * [Gzip 压缩](gzip.md)
 * [流 Streaming](streaming.md)
 * [Cookies](cookies.md)
@@ -49,5 +54,4 @@
 * [基于浏览器的编辑器](plugin-editor.md)
 * [控制面板](plugin-iriscontrol.md)
 * [示例 Examples](https://github.com/iris-contrib/examples)
-
 
